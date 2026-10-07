@@ -153,16 +153,26 @@ for (const el of document.querySelectorAll("[data-dir], [data-button]")) {
   onScreen[el.dataset.dir ?? el.dataset.button] = el;
 }
 
+// The game reads the buttons once a frame, so even the quickest tap is held
+// for two frames.
+let frames = 0;
+const pressedAt = {};
+
 // Combine the keyboard, touch and controllers, and tell the emulator what
 // changed.
 function syncButtons() {
   const now = new Set([...sources.keys, ...sources.pad]);
   for (const set of sources.touch.values()) for (const b of set) now.add(b);
   for (const b of BUTTONS) {
-    const down = now.has(b);
+    let down = now.has(b);
+    if (!down && held.has(b) && frames - pressedAt[b] < 2) down = true;
     if (down === held.has(b)) continue;
-    if (down) held.add(b);
-    else held.delete(b);
+    if (down) {
+      held.add(b);
+      pressedAt[b] = frames;
+    } else {
+      held.delete(b);
+    }
     if (e) m[`_set_joyp_${b}`](e, down ? 1 : 0);
     onScreen[b]?.classList.toggle("pressed", down);
   }
@@ -298,6 +308,7 @@ function runUntil(ticks) {
     if (event & NEW_FRAME) {
       image.data.set(frame);
       drew = true;
+      frames += 1;
     }
     if (event & AUDIO_FULL) playSound(samples);
     if (event & REACHED) break;
@@ -315,6 +326,7 @@ function tick(ms) {
   const target = m._emulator_get_ticks_f64(e) + step * TICKS_PER_SECOND - leftover;
   runUntil(target);
   leftover = m._emulator_get_ticks_f64(e) - target;
+  syncButtons();
 }
 
 // Coming back to the tab shouldn't fast-forward to catch up.
