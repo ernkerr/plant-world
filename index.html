@@ -6,14 +6,14 @@
     <title>Plant World</title>
     <meta
       name="description"
-      content="A little Mario-style game for the original Game Boy, starring a plant in a pot. Play it here, or download it for a real Game Boy."
+      content="A little Mario-style Game Boy game, starring a plant in a pot. Play it here, or download it for a real Game Boy."
     />
     <meta property="og:title" content="Plant World" />
     <meta
       property="og:description"
-      content="A little Mario-style game for the original Game Boy, starring a plant in a pot."
+      content="A little Mario-style Game Boy game, starring a plant in a pot."
     />
-    <meta name="theme-color" content="#e6e9dc" />
+    <meta name="theme-color" content="#e9edf1" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,7 +31,7 @@
       <header class="top">
         <div>
           <h1 class="wordmark">Plant World</h1>
-          <p class="lede">A little game for the original Game Boy. Play it here, or put it on a real one.</p>
+          <p class="lede">A little Game Boy game. Play it here, or put it on a real one.</p>
         </div>
         <div class="tools">
           <button type="button" class="pill" id="sound" aria-pressed="true">Sound on</button>
@@ -39,26 +39,33 @@
         </div>
       </header>
 
-      <!-- A Game Boy, drawn in CSS. The buttons are for touch screens; the
-           keyboard and game controllers have their own mapping (below). -->
+      <!-- A light blue Game Boy Advance SP, opened, drawn in CSS. The buttons
+           are for touch screens; keyboards and game controllers have their
+           own mapping (below). -->
       <div class="stage">
-        <div class="gb" id="gb">
-          <span class="groove left" aria-hidden="true"></span>
-          <span class="groove right" aria-hidden="true"></span>
-
-          <div class="bezel">
-            <p class="bezel-label" aria-hidden="true">PLANT WORLD</p>
-            <span class="led" id="led" aria-hidden="true"></span>
-            <span class="led-label" aria-hidden="true">POWER</span>
-            <div class="lcd">
-              <canvas id="screen" width="160" height="144" role="img" aria-label="The Game Boy screen"></canvas>
-              <p class="lcd-note" id="note" hidden></p>
+        <div class="sp" id="sp">
+          <div class="lid">
+            <div class="glass">
+              <div class="lcd" id="lcd">
+                <canvas id="screen" width="160" height="144" role="img" aria-label="The Game Boy screen"></canvas>
+                <p class="lcd-note" id="note" hidden></p>
+              </div>
+              <p class="glass-label" aria-hidden="true">PLANT WORLD</p>
             </div>
           </div>
-
-          <p class="maker" aria-hidden="true"><span>Erin Kerr</span> PLANT WORLD</p>
+          <div class="hinge" aria-hidden="true"></div>
+          <div class="base" aria-hidden="true"></div>
 
           <div class="controls" aria-hidden="true">
+            <span class="shoulder l" data-shoulder title="L: stretch the picture">L</span>
+            <span class="shoulder r" data-shoulder title="R: stretch the picture">R</span>
+
+            <span class="led" id="led"></span>
+            <span class="led-label">POWER</span>
+            <span class="light" data-light title="Screen light">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" /></svg>
+            </span>
+
             <div class="dpad" data-pad>
               <span class="arm up" data-dir="up"></span>
               <span class="arm right" data-dir="right"></span>
@@ -66,21 +73,19 @@
               <span class="arm left" data-dir="left"></span>
               <span class="hub"></span>
             </div>
-            <div class="ab">
-              <span class="round b" data-button="B"></span>
-              <span class="round a" data-button="A"></span>
-              <span class="ab-label b">B</span>
-              <span class="ab-label a">A</span>
-            </div>
-            <div class="menu">
-              <span class="capsule" data-button="select"></span>
-              <span class="capsule" data-button="start"></span>
-              <span class="menu-label select">SELECT</span>
-              <span class="menu-label start">START</span>
-            </div>
-            <div class="speaker">
-              <span></span><span></span><span></span><span></span><span></span><span></span>
-            </div>
+
+            <span class="round b" data-button="B"></span>
+            <span class="round a" data-button="A"></span>
+            <span class="key-label b">B</span>
+            <span class="key-label a">A</span>
+
+            <span class="small select" data-button="select"></span>
+            <span class="small start" data-button="start"></span>
+            <span class="small-label select">SELECT</span>
+            <span class="small-label start">START</span>
+
+            <span class="speaker"></span>
+            <span class="maker">Erin Kerr</span>
           </div>
         </div>
       </div>
@@ -92,6 +97,7 @@
           <span><kbd>X</kbd> jump (A)</span>
           <span><kbd>Z</kbd> B</span>
           <span><kbd>Enter</kbd> start</span>
+          <span><kbd>L</kbd> or <kbd>R</kbd> stretch the picture</span>
         </p>
         <p class="credit">
           By <a href="https://erinkerr.me">Erin Kerr</a>. Runs on

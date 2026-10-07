@@ -1,13 +1,10 @@
-// Plant World on a little Game Boy in the browser. The emulator is binjgb by
+// Plant World on a little Game Boy Advance SP in the browser. The emulator is binjgb by
 // Ben Smith (MIT), compiled to WebAssembly (vendor/). This file hands it the
 // cartridge, draws its frames, plays its sound, keeps its save, and passes
 // it your button presses.
 
 const ROM = "plant-world.gb";
 const SAVE_KEY = "plant-world:save";
-
-// The original Game Boy's four shades, lightest first.
-const SHADES = ["#e0f8d0", "#88c070", "#346856", "#081820"];
 
 const TICKS_PER_SECOND = 4194304;
 const MAX_STEP = 5 / 60; // never run more than 5 frames to catch up
@@ -28,23 +25,6 @@ function say(text) {
   note.textContent = text;
   note.hidden = !text;
 }
-
-// The cartridge says it's made for Game Boy Color too, so the emulator would
-// play it in color. Clearing that flag (and fixing the header checksum) plays
-// it as an original Game Boy does, in four shades.
-function asOriginalGameBoy(buffer) {
-  const rom = new Uint8Array(buffer);
-  rom[0x143] = 0;
-  let sum = 0;
-  for (let i = 0x134; i <= 0x14c; i++) sum = (sum - rom[i] - 1) & 0xff;
-  rom[0x14d] = sum;
-  return rom;
-}
-
-const rgba = (hex) => {
-  const n = parseInt(hex.slice(1), 16);
-  return (0xff000000 | ((n & 0xff) << 16) | (n & 0xff00) | (n >> 16)) >>> 0;
-};
 
 // ---- Sound ----
 
@@ -199,6 +179,10 @@ const KEYS = {
 };
 
 window.addEventListener("keydown", (ev) => {
+  if ((ev.code === "KeyL" || ev.code === "KeyR") && !ev.repeat && !ev.metaKey && !ev.ctrlKey) {
+    toggleStretch();
+    return;
+  }
   const b = KEYS[ev.code];
   if (!b || ev.metaKey || ev.ctrlKey || ev.altKey) return;
   // Leave Enter and Space to links and page buttons that have focus.
@@ -275,8 +259,58 @@ for (const type of ["pointerup", "pointercancel", "lostpointercapture"]) {
   });
 }
 
+// ---- The SP's own buttons ----
+
+const lcd = $("#lcd");
+const prefs = (() => {
+  try {
+    return JSON.parse(localStorage.getItem("plant-world:screen")) ?? {};
+  } catch {
+    return {};
+  }
+})();
+function keepPrefs() {
+  try {
+    localStorage.setItem("plant-world:screen", JSON.stringify(prefs));
+  } catch {
+    // Fine to forget.
+  }
+}
+
+// L or R stretches a Game Boy game to fill the SP's wider screen, like the
+// real one.
+function toggleStretch() {
+  prefs.stretched = !prefs.stretched;
+  lcd.classList.toggle("stretched", prefs.stretched);
+  keepPrefs();
+}
+lcd.classList.toggle("stretched", Boolean(prefs.stretched));
+
+// The light button turns the screen light off and on.
+lcd.classList.toggle("dim", Boolean(prefs.dim));
+function toggleLight() {
+  prefs.dim = !prefs.dim;
+  lcd.classList.toggle("dim", prefs.dim);
+  keepPrefs();
+}
+
+function tapButton(el, action) {
+  el.addEventListener("pointerdown", (ev) => {
+    ev.preventDefault();
+    el.classList.add("pressed");
+    if (navigator.vibrate) navigator.vibrate(8);
+    action();
+  });
+  for (const type of ["pointerup", "pointercancel", "pointerleave"]) {
+    el.addEventListener(type, () => el.classList.remove("pressed"));
+  }
+}
+for (const el of document.querySelectorAll("[data-shoulder]")) tapButton(el, toggleStretch);
+tapButton($("[data-light]"), toggleLight);
+
 // Game controllers, laid out like a Game Boy: the right face button is A,
 // the bottom one B.
+const padShoulders = new Map();
 function readGamepads() {
   const pads = navigator.getGamepads?.() ?? [];
   sources.pad.clear();
@@ -292,6 +326,9 @@ function readGamepads() {
     if (on(0) || on(2)) sources.pad.add("B");
     if (on(9)) sources.pad.add("start");
     if (on(8)) sources.pad.add("select");
+    const shoulder = on(4) || on(5);
+    if (shoulder && !padShoulders.get(p.index)) toggleStretch();
+    padShoulders.set(p.index, shoulder);
   }
   syncButtons();
 }
@@ -346,15 +383,14 @@ async function start() {
       }),
     ]);
     m = module;
-    const cart = asOriginalGameBoy(rom);
+    // The SP plays it in color, as a Game Boy Color would.
+    const cart = new Uint8Array(rom);
     const size = (cart.length + 0x7fff) & ~0x7fff;
     const ptr = m._malloc(size);
     view(ptr, size).fill(0).set(cart);
     e = m._emulator_new_simple(ptr, size, audio?.sampleRate ?? 44100, AUDIO_FRAMES, 0);
     if (!e) throw new Error("The emulator couldn't read the cartridge.");
     m._emulator_set_default_joypad_callback(e, m._joypad_new());
-    const shades = SHADES.map(rgba);
-    for (let layer = 0; layer < 3; layer++) m._emulator_set_bw_palette_simple(e, layer, ...shades);
     frame = view(m._get_frame_buffer_ptr(e), m._get_frame_buffer_size(e));
     samples = view(m._get_audio_buffer_ptr(e), m._get_audio_buffer_capacity(e));
     loadSave();

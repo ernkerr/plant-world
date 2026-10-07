@@ -1,22 +1,18 @@
 :root {
-  --paper: #e6e9dc;
-  --ink: #27301f;
-  --muted: #5d6852;
+  --paper: #e9edf1;
+  --ink: #1f2b38;
+  --muted: #5b6878;
 
-  /* The handheld */
-  --body-hi: #dedbd4;
-  --body: #cdcac2;
-  --body-lo: #bfbcb3;
-  --bezel: #5d6070;
-  --bezel-text: #c4c7d4;
-  --navy: #2f3b8c;
-  --pad: #2a2a31;
-  --berry: #a3235c;
-  --capsule: #8e8d97;
-
-  /* The screen's four shades, lightest first (main.js uses the same ones) */
-  --shade-0: #e0f8d0;
-  --shade-3: #081820;
+  /* A pearl blue SP */
+  --shell-hi: #d3e6f8;
+  --shell: #b4d1ee;
+  --shell-lo: #9dbfe4;
+  --shell-edge: #86a9d2;
+  --key: #6c8cba;
+  --key-hi: #8eaad2;
+  --key-lo: #4b6b98;
+  --print: #3f5d85;
+  --glass: #101317;
 
   --serif: "Newsreader", Georgia, "Times New Roman", serif;
   --sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -90,7 +86,7 @@ body {
 
 .pill {
   padding: 8px 14px;
-  border: 1px solid rgba(39, 48, 31, 0.16);
+  border: 1px solid rgba(31, 43, 56, 0.16);
   border-radius: 999px;
   font: inherit;
   font-size: 14px;
@@ -104,11 +100,11 @@ body {
 }
 
 .pill:hover {
-  border-color: rgba(39, 48, 31, 0.32);
+  border-color: rgba(31, 43, 56, 0.32);
   background: #ffffff;
 }
 
-/* ---- The handheld ---- */
+/* ---- The SP ---- */
 
 .stage {
   flex: 1;
@@ -117,124 +113,96 @@ body {
   padding: 12px 16px;
 }
 
-/* Everything inside is sized in cqw (a share of the handheld's width), so it
-   scales as one piece. */
-.gb {
+/* Everything inside is sized in cqw (a share of the SP's width), so it
+   scales as one piece. Opened, an SP is about half as wide as it is tall. */
+.sp {
   position: relative;
   container-type: inline-size;
-  width: min(420px, calc(100vw - 32px), calc((100dvh - 230px) * 90 / 148));
-  min-width: 260px;
-  aspect-ratio: 90 / 148;
-  border-radius: 2.5cqw 2.5cqw 17cqw 2.5cqw / 2.5cqw 2.5cqw 14cqw 2.5cqw;
-  background: linear-gradient(165deg, var(--body-hi), var(--body) 55%, var(--body-lo));
-  box-shadow:
-    inset -0.8cqw -1.2cqw 0 rgba(0, 0, 0, 0.07),
-    inset 0.6cqw 0.6cqw 0 rgba(255, 255, 255, 0.55),
-    0 2cqw 4cqw -1cqw rgba(40, 46, 30, 0.3),
-    0 12cqw 22cqw -10cqw rgba(40, 46, 30, 0.45);
+  width: min(440px, calc(100vw - 32px), calc((100dvh - 224px) * 0.52));
+  min-width: 250px;
+  aspect-ratio: 52 / 100;
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+  filter: drop-shadow(0 6cqw 8cqw rgba(30, 50, 80, 0.28));
 }
 
-.groove {
+.lid,
+.base {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: linear-gradient(165deg, var(--shell-hi), var(--shell) 50%, var(--shell-lo));
+  box-shadow:
+    inset 0.6cqw 0.6cqw 0 rgba(255, 255, 255, 0.55),
+    inset -0.8cqw -1cqw 0 rgba(40, 70, 110, 0.12);
+}
+
+.lid {
+  top: 0;
+  height: 94cqw;
+  border-radius: 8cqw 8cqw 3cqw 3cqw;
+}
+
+.base {
+  top: 96cqw;
+  bottom: 0;
+  border-radius: 3cqw 3cqw 11cqw 11cqw;
+}
+
+.glass {
   position: absolute;
   top: 5cqw;
-  width: 9cqw;
-  height: 0.5cqw;
-  background: rgba(0, 0, 0, 0.12);
-  box-shadow: 0 0.35cqw 0 rgba(255, 255, 255, 0.5);
+  left: 5.5cqw;
+  right: 5.5cqw;
+  height: 78cqw;
+  border-radius: 3.5cqw;
+  background: var(--glass);
+  box-shadow: 0 0 0 0.5cqw rgba(40, 70, 110, 0.25);
 }
 
-.groove.left {
-  left: 0;
-}
-
-.groove.right {
-  right: 0;
-}
-
-.bezel {
-  position: absolute;
-  top: 9cqw;
-  left: 7cqw;
-  right: 7cqw;
-  height: 66cqw;
-  border-radius: 3cqw 3cqw 12cqw 3cqw;
-  background: var(--bezel);
-  box-shadow: inset 0 0.4cqw 0.8cqw rgba(0, 0, 0, 0.25);
-}
-
-.bezel-label {
-  position: absolute;
-  top: 2.4cqw;
-  left: 4cqw;
-  right: 4cqw;
-  display: flex;
-  align-items: center;
-  gap: 2.4cqw;
-  margin: 0;
-  font-size: 2.2cqw;
-  font-weight: 500;
-  letter-spacing: 0.3em;
-  color: var(--bezel-text);
-  white-space: nowrap;
-}
-
-.bezel-label::before,
-.bezel-label::after {
+/* Light catching the glass. */
+.glass::after {
   content: "";
-  flex: 1;
-  height: 0.5cqw;
-  background: rgba(196, 199, 212, 0.35);
-}
-
-.led {
   position: absolute;
-  top: 27cqw;
-  left: 4.4cqw;
-  width: 2.4cqw;
-  height: 2.4cqw;
-  border-radius: 50%;
-  background: #3a2326;
-  transition:
-    background 300ms,
-    box-shadow 300ms;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.03) 38%, transparent 40%);
+  pointer-events: none;
 }
 
-.led.on {
-  background: #ff4b4b;
-  box-shadow: 0 0 1.6cqw rgba(255, 75, 75, 0.85);
-}
-
-.led-label {
-  position: absolute;
-  top: 31cqw;
-  left: 2.6cqw;
-  font-size: 1.7cqw;
-  letter-spacing: 0.08em;
-  color: var(--bezel-text);
-}
-
+/* The SP's screen is 240 by 160. A Game Boy game is 160 by 144, so it sits
+   in the middle with black around it, unless you stretch it with L or R. */
 .lcd {
   position: absolute;
-  top: 7.6cqw;
-  left: 50%;
-  width: 60cqw;
-  height: 54cqw;
-  margin-left: -30cqw;
-  background: var(--shade-0);
-  box-shadow:
-    inset 0.7cqw 0.9cqw 1.6cqw rgba(0, 0, 0, 0.28),
-    0 0 0 0.5cqw rgba(0, 0, 0, 0.18);
+  top: 6.5cqw;
+  left: 5cqw;
+  width: 79cqw;
+  height: 52.67cqw;
+  overflow: hidden;
+  background: #000000;
+  transition: filter 250ms;
 }
 
 .lcd canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 5%;
+  left: 16.667%;
+  width: 66.667%;
+  height: 90%;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+}
+
+.lcd.stretched canvas {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* The light turned off: an older SP in a dim room. */
+.lcd.dim {
+  filter: brightness(0.5) saturate(0.8);
 }
 
 .lcd-note {
@@ -247,26 +215,33 @@ body {
   font-size: 3.2cqw;
   line-height: 1.4;
   text-align: center;
-  color: var(--shade-3);
+  color: #c9d2dc;
 }
 
-.maker {
+.glass-label {
   position: absolute;
-  top: 78cqw;
-  left: 8cqw;
+  top: 65.5cqw;
+  left: 0;
+  right: 0;
   margin: 0;
-  font-size: 5.6cqw;
-  font-style: italic;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  color: var(--navy);
+  font-size: 2.6cqw;
+  font-weight: 500;
+  letter-spacing: 0.4em;
+  text-align: center;
+  color: #7e8a97;
 }
 
-.maker span {
-  margin-right: 1.2cqw;
-  font-size: 3.6cqw;
-  font-weight: 500;
-  letter-spacing: 0;
+.hinge {
+  position: absolute;
+  top: 90.5cqw;
+  left: 14.5cqw;
+  right: 14.5cqw;
+  height: 8.5cqw;
+  border-radius: 4.25cqw;
+  background: linear-gradient(180deg, var(--shell-hi), var(--shell) 40%, var(--shell-edge));
+  box-shadow:
+    0 0.6cqw 1cqw rgba(30, 50, 80, 0.25),
+    inset 0 0.4cqw 0 rgba(255, 255, 255, 0.6);
 }
 
 /* ---- Buttons ---- */
@@ -280,15 +255,103 @@ body {
 
 .dpad,
 .round,
-.capsule {
+.small,
+.shoulder,
+.light {
   pointer-events: auto;
   touch-action: none;
   cursor: pointer;
 }
 
+.shoulder {
+  position: absolute;
+  top: 91.5cqw;
+  width: 13cqw;
+  height: 7cqw;
+  display: grid;
+  place-items: center;
+  font-size: 2.8cqw;
+  font-weight: 800;
+  color: var(--print);
+  background: linear-gradient(180deg, var(--shell-lo), var(--shell-edge));
+  box-shadow: inset 0 0.4cqw 0 rgba(255, 255, 255, 0.45);
+  transition: translate 60ms;
+}
+
+.shoulder.l {
+  left: 0;
+  border-radius: 4cqw 1.5cqw 1.5cqw 1cqw;
+}
+
+.shoulder.r {
+  right: 0;
+  border-radius: 1.5cqw 4cqw 1cqw 1.5cqw;
+}
+
+.shoulder.pressed {
+  translate: 0 0.5cqw;
+  filter: brightness(0.92);
+}
+
+.led {
+  position: absolute;
+  top: 104cqw;
+  left: 8.5cqw;
+  width: 2.2cqw;
+  height: 2.2cqw;
+  border-radius: 50%;
+  background: #5d7189;
+  transition:
+    background 300ms,
+    box-shadow 300ms;
+}
+
+.led.on {
+  background: #6dff8a;
+  box-shadow: 0 0 1.6cqw rgba(109, 255, 138, 0.9);
+}
+
+.led-label {
+  position: absolute;
+  top: 107.2cqw;
+  left: 5.6cqw;
+  font-size: 1.7cqw;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--print);
+}
+
+.light {
+  position: absolute;
+  top: 102.5cqw;
+  left: 46.5cqw;
+  width: 7cqw;
+  height: 7cqw;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, var(--key-hi), var(--key));
+  box-shadow: 0 0.5cqw 0 var(--key-lo);
+  transition: translate 60ms;
+}
+
+.light svg {
+  width: 4.4cqw;
+  height: 4.4cqw;
+  fill: none;
+  stroke: #e7f0fa;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.light.pressed {
+  translate: 0 0.4cqw;
+  box-shadow: 0 0.15cqw 0 var(--key-lo);
+}
+
 .dpad {
   position: absolute;
-  top: 96cqw;
+  top: 116cqw;
   left: 7cqw;
   width: 30cqw;
   height: 30cqw;
@@ -300,7 +363,7 @@ body {
   position: absolute;
   inset: -2.5cqw;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.07) 55%, transparent 72%);
+  background: radial-gradient(circle, rgba(40, 70, 110, 0.12) 55%, transparent 72%);
 }
 
 .arm,
@@ -308,78 +371,56 @@ body {
   position: absolute;
   width: 10cqw;
   height: 10cqw;
-  background: var(--pad);
+  background: var(--key);
+  box-shadow:
+    0 0.8cqw 0 var(--key-lo),
+    inset 0 0.4cqw 0 rgba(255, 255, 255, 0.25);
   transition: translate 60ms;
 }
 
 .arm.up {
   top: 0;
   left: 10cqw;
-  border-radius: 1.2cqw 1.2cqw 0 0;
+  border-radius: 1.4cqw 1.4cqw 0 0;
 }
 
 .arm.down {
   top: 20cqw;
   left: 10cqw;
-  border-radius: 0 0 1.2cqw 1.2cqw;
+  border-radius: 0 0 1.4cqw 1.4cqw;
 }
 
 .arm.left {
   top: 10cqw;
   left: 0;
-  border-radius: 1.2cqw 0 0 1.2cqw;
+  border-radius: 1.4cqw 0 0 1.4cqw;
 }
 
 .arm.right {
   top: 10cqw;
   left: 20cqw;
-  border-radius: 0 1.2cqw 1.2cqw 0;
+  border-radius: 0 1.4cqw 1.4cqw 0;
 }
 
 .hub {
   top: 10cqw;
   left: 10cqw;
+  box-shadow: 0 0.8cqw 0 var(--key-lo);
 }
 
 .hub::after {
   content: "";
   position: absolute;
-  inset: 2.6cqw;
+  inset: 2.8cqw;
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #3a3a42, #222228);
-}
-
-.arm {
-  box-shadow: 0 0.8cqw 0 #141418;
-}
-
-.hub {
-  box-shadow: 0 0.8cqw 0 #141418;
+  background: radial-gradient(circle at 40% 35%, var(--key-lo), #5b7aa7);
+  opacity: 0.6;
 }
 
 .arm.pressed {
   translate: 0 0.5cqw;
-  box-shadow: 0 0.3cqw 0 #141418;
-  background: #222228;
-}
-
-.ab {
-  position: absolute;
-  inset: 0;
-}
-
-/* The tilted capsule A and B sit in. */
-.ab::before {
-  content: "";
-  position: absolute;
-  top: 100cqw;
-  left: 55cqw;
-  width: 40cqw;
-  height: 18cqw;
-  border-radius: 9cqw;
-  background: rgba(0, 0, 0, 0.06);
-  box-shadow: inset 0 0.5cqw 0.8cqw rgba(0, 0, 0, 0.08);
-  transform: rotate(-25deg);
+  box-shadow: 0 0.3cqw 0 var(--key-lo);
+  background: #6283b2;
 }
 
 .round {
@@ -387,117 +428,113 @@ body {
   width: 14cqw;
   height: 14cqw;
   border-radius: 50%;
-  background: radial-gradient(circle at 38% 32%, #c13a74, var(--berry) 60%, #861a4a);
-  box-shadow: 0 0.9cqw 0 #5e1032;
+  background: radial-gradient(circle at 38% 32%, var(--key-hi), var(--key) 62%, #5f7fae);
+  box-shadow: 0 0.9cqw 0 var(--key-lo);
   transition: translate 60ms;
 }
 
 .round.b {
-  top: 105cqw;
+  top: 129cqw;
   left: 58cqw;
 }
 
 .round.a {
-  top: 96.5cqw;
-  left: 76cqw;
+  top: 117.5cqw;
+  left: 77cqw;
 }
 
 .round.pressed {
   translate: 0 0.6cqw;
-  box-shadow: 0 0.3cqw 0 #5e1032;
-  filter: brightness(0.9);
+  box-shadow: 0 0.3cqw 0 var(--key-lo);
+  filter: brightness(0.94);
 }
 
-.ab-label {
+.key-label {
   position: absolute;
   font-size: 3.4cqw;
   font-weight: 800;
-  letter-spacing: 0.04em;
-  color: var(--navy);
+  color: var(--print);
 }
 
-.ab-label.b {
-  top: 121cqw;
+.key-label.b {
+  top: 145cqw;
   left: 63.6cqw;
 }
 
-.ab-label.a {
-  top: 112.5cqw;
-  left: 81.8cqw;
+.key-label.a {
+  top: 133.5cqw;
+  left: 82.6cqw;
 }
 
-.menu {
+.small {
   position: absolute;
-  inset: 0;
-}
-
-.capsule {
-  position: absolute;
-  top: 135cqw;
-  width: 11cqw;
-  height: 3.2cqw;
-  border-radius: 2cqw;
-  background: var(--capsule);
-  box-shadow:
-    0 0.5cqw 0 #6b6a73,
-    0 0 0 0.9cqw rgba(0, 0, 0, 0.05);
-  transform: rotate(-25deg);
+  left: 81cqw;
+  width: 6.5cqw;
+  height: 6.5cqw;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, var(--key-hi), var(--key));
+  box-shadow: 0 0.5cqw 0 var(--key-lo);
   transition: translate 60ms;
 }
 
-/* A bigger target for fingers than the capsule itself. */
-.capsule::after {
+/* A bigger target for fingers than the button itself. */
+.small::after {
   content: "";
   position: absolute;
-  inset: -2.5cqw -1.5cqw;
+  inset: -2cqw -3cqw;
 }
 
-.capsule:first-child {
-  left: 31cqw;
+.small.select {
+  top: 156cqw;
 }
 
-.capsule:nth-child(2) {
-  left: 47cqw;
+.small.start {
+  top: 167cqw;
 }
 
-.capsule.pressed {
+.small.pressed {
   translate: 0 0.4cqw;
-  box-shadow: 0 0.15cqw 0 #6b6a73;
+  box-shadow: 0 0.15cqw 0 var(--key-lo);
 }
 
-.menu-label {
+.small-label {
   position: absolute;
-  top: 140.5cqw;
+  right: 22cqw;
   font-size: 2.3cqw;
   font-weight: 800;
   letter-spacing: 0.08em;
-  color: var(--navy);
-  transform: rotate(-25deg);
+  color: var(--print);
 }
 
-.menu-label.select {
-  left: 30.5cqw;
+.small-label.select {
+  top: 158cqw;
 }
 
-.menu-label.start {
-  left: 48.4cqw;
+.small-label.start {
+  top: 169cqw;
 }
 
 .speaker {
   position: absolute;
-  right: 9cqw;
-  bottom: 11cqw;
-  display: flex;
-  gap: 2.3cqw;
-  transform: rotate(-30deg);
+  top: 160cqw;
+  left: 11cqw;
+  width: 18cqw;
+  height: 10.8cqw;
+  background-image: radial-gradient(circle, rgba(30, 50, 80, 0.5) 0.75cqw, transparent 0.9cqw);
+  background-size: 3.6cqw 3.6cqw;
 }
 
-.speaker span {
-  width: 1.7cqw;
-  height: 13cqw;
-  border-radius: 1cqw;
-  background: rgba(0, 0, 0, 0.16);
-  box-shadow: inset 0.3cqw 0.4cqw 0.5cqw rgba(0, 0, 0, 0.25);
+.maker {
+  position: absolute;
+  top: 181cqw;
+  left: 0;
+  right: 0;
+  font-size: 2.6cqw;
+  font-style: italic;
+  font-weight: 500;
+  text-align: center;
+  color: var(--print);
+  opacity: 0.8;
 }
 
 /* ---- Bottom ---- */
@@ -524,13 +561,13 @@ kbd {
   display: inline-block;
   min-width: 1.9em;
   padding: 1px 6px;
-  border: 1px solid rgba(39, 48, 31, 0.2);
+  border: 1px solid rgba(31, 43, 56, 0.2);
   border-bottom-width: 2px;
   border-radius: 5px;
   font: inherit;
   font-size: 12px;
   color: var(--ink);
-  background: #f5f6ef;
+  background: #f6f8fa;
 }
 
 .credit {
@@ -548,7 +585,48 @@ kbd {
   color: var(--ink);
 }
 
-/* Phones: the handheld takes the screen; the key list is for keyboards. */
+/* Wide screens: words on the left, the SP as tall as the window. */
+@media (min-width: 960px) {
+  .page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    grid-template-rows: 1fr auto;
+  }
+
+  .top {
+    grid-column: 1;
+    grid-row: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 28px 32px;
+  }
+
+  .stage {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    padding: 24px;
+  }
+
+  .sp {
+    width: min(460px, calc((100dvh - 48px) * 0.52));
+  }
+
+  .bottom {
+    grid-column: 1;
+    grid-row: 2;
+    justify-items: start;
+    padding: 28px 32px;
+    text-align: left;
+  }
+
+  .keys {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
+
+/* Phones: the SP takes the screen; the key list is for keyboards. */
 @media (pointer: coarse) {
   .keys {
     display: none;
@@ -572,17 +650,16 @@ kbd {
     padding: 6px 11px;
     font-size: 13px;
   }
-
-  .gb {
-    width: min(420px, calc(100vw - 32px), calc((100dvh - 150px) * 90 / 148));
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .arm,
   .round,
-  .capsule,
-  .led {
+  .small,
+  .shoulder,
+  .light,
+  .led,
+  .lcd {
     transition: none;
   }
 }
