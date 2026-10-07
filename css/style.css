@@ -93,7 +93,6 @@ body {
   background: #ffffff;
 }
 
-#stretch[aria-pressed="true"],
 #big[aria-pressed="true"] {
   border-color: rgba(31, 43, 56, 0.45);
   background: #ffffff;
@@ -131,18 +130,8 @@ body {
   filter: drop-shadow(0 1.5cqw 2cqw rgba(19, 56, 93, 0.22)) drop-shadow(0 10cqw 12cqw rgba(19, 56, 93, 0.22));
 }
 
-/* Lettering. The name sits where the logo does, in silver on the lens; the
-   button labels are raised from the plastic, so each is drawn twice: a light
-   edge, then the letters. */
-.logo {
-  font-family: var(--sans);
-  font-size: 34px;
-  font-style: italic;
-  font-weight: 800;
-  letter-spacing: 3px;
-  fill: #c3c8cd;
-}
-
+/* Lettering. The button labels are raised from the plastic, so each is
+   drawn twice: a light edge, then the letters. */
 .label,
 .label-light {
   font-family: var(--sans);
@@ -230,34 +219,27 @@ body {
   opacity: 0.4;
 }
 
-/* The window in the lid is 610 by 407 at 105, 110 in the drawing. The SP's
-   screen is 240 by 160 and a Game Boy game is 160 by 144, so the game sits in
-   the middle with black around it, unless you stretch it with L or R. */
+/* The game fills the lens (660 by 555 at 80, 85 in the drawing), inside
+   its thin edge. A Game Boy game is 10 by 9 and the lens about 6 by 5, so the
+   picture is stretched a little sideways to fill it. */
 .lcd {
   position: absolute;
-  top: 7.0513%;
-  left: 12.8049%;
-  width: 74.3902%;
-  height: 26.0897%;
+  top: 5.641%;
+  left: 10.122%;
+  width: 79.756%;
+  height: 35.192%;
   overflow: hidden;
+  border-radius: 1.68% / 2%;
   background: #000000;
   transition: filter 250ms;
 }
 
 .lcd canvas {
-  position: absolute;
-  top: 5%;
-  left: 16.667%;
-  width: 66.667%;
-  height: 90%;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-}
-
-.lcd.stretched canvas {
-  inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
 /* The light turned off: an older SP in a dim room. */

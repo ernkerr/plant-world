@@ -179,10 +179,6 @@ const KEYS = {
 };
 
 window.addEventListener("keydown", (ev) => {
-  if ((ev.code === "KeyL" || ev.code === "KeyR") && !ev.repeat && !ev.metaKey && !ev.ctrlKey) {
-    toggleStretch();
-    return;
-  }
   const b = KEYS[ev.code];
   if (!b || ev.metaKey || ev.ctrlKey || ev.altKey) return;
   // Leave Enter and Space to links and page buttons that have focus.
@@ -262,10 +258,9 @@ for (const type of ["pointerup", "pointercancel", "lostpointercapture"]) {
 // ---- The SP's own buttons ----
 
 const lcd = $("#lcd");
-// The game fills the screen and, on a computer, the SP is drawn big, unless
-// you've turned those off.
+// On a computer the SP is drawn big, unless you've turned that off.
 const prefs = (() => {
-  const start = { stretched: true, big: true, dim: false };
+  const start = { big: true, dim: false };
   try {
     return { ...start, ...JSON.parse(localStorage.getItem("plant-world:view")) };
   } catch {
@@ -279,21 +274,6 @@ function keepPrefs() {
     // Fine to forget.
   }
 }
-
-// L or R stretches a Game Boy game to fill the SP's wider screen, like the
-// real one.
-const stretchBtn = $("#stretch");
-function showStretch() {
-  lcd.classList.toggle("stretched", Boolean(prefs.stretched));
-  stretchBtn.setAttribute("aria-pressed", String(Boolean(prefs.stretched)));
-}
-function toggleStretch() {
-  prefs.stretched = !prefs.stretched;
-  showStretch();
-  keepPrefs();
-}
-showStretch();
-stretchBtn.addEventListener("click", toggleStretch);
 
 const bigBtn = $("#big");
 function showBig() {
@@ -326,12 +306,10 @@ function tapButton(el, action) {
     el.addEventListener(type, () => el.classList.remove("pressed"));
   }
 }
-for (const el of document.querySelectorAll("[data-shoulder]")) tapButton(el, toggleStretch);
 tapButton($("[data-light]"), toggleLight);
 
 // Game controllers, laid out like a Game Boy: the right face button is A,
 // the bottom one B.
-const padShoulders = new Map();
 function readGamepads() {
   const pads = navigator.getGamepads?.() ?? [];
   sources.pad.clear();
@@ -347,9 +325,6 @@ function readGamepads() {
     if (on(0) || on(2)) sources.pad.add("B");
     if (on(9)) sources.pad.add("start");
     if (on(8)) sources.pad.add("select");
-    const shoulder = on(4) || on(5);
-    if (shoulder && !padShoulders.get(p.index)) toggleStretch();
-    padShoulders.set(p.index, shoulder);
   }
   syncButtons();
 }
