@@ -36,15 +36,14 @@ body {
   min-height: 100dvh;
 }
 
-/* ---- Top ---- */
+/* ---- The side ---- */
 
-.top {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px 24px;
-  padding: 18px 24px 8px;
+.side-top {
+  padding: 18px 24px 4px;
+}
+
+.side-bottom {
+  padding: 8px 24px 28px;
 }
 
 .wordmark {
@@ -52,32 +51,124 @@ body {
   font-family: var(--serif);
   font-style: italic;
   font-weight: 400;
-  font-size: 30px;
+  font-size: 34px;
   line-height: 1.1;
   letter-spacing: -0.01em;
 }
 
 .lede {
-  margin: 4px 0 0;
+  max-width: 34ch;
+  margin: 6px 0 0;
   font-size: 15px;
+  line-height: 1.5;
   color: var(--muted);
 }
 
+.lede a,
+.credit a {
+  color: inherit;
+  text-underline-offset: 2px;
+}
+
+.lede a:hover,
+.credit a:hover {
+  color: var(--ink);
+}
+
+.settings,
 .tools {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
+.settings {
+  margin-top: 16px;
+}
+
+/* A small heading over each part of the side. */
+.side-label {
+  margin: 0 0 10px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.howto,
+.roms {
+  padding-top: 18px;
+  border-top: 1px solid rgba(31, 35, 40, 0.1);
+}
+
+.howto {
+  margin-top: 26px;
+}
+
+.goal {
+  max-width: 36ch;
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #3a4048;
+}
+
+/* Each key, lined up with what it does. */
+.keys {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+}
+
+.keys div {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  align-items: center;
+}
+
+.keys dt {
+  display: flex;
+  gap: 4px;
+}
+
+.keys dd {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 24px;
+  padding: 0 6px;
+  border: 1px solid rgba(31, 35, 40, 0.18);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--ink);
+  background: #f6f7f9;
+}
+
+.aside-note {
+  margin: 14px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
 .pill {
   padding: 8px 14px;
-  border: 1px solid rgba(31, 43, 56, 0.16);
+  border: 1px solid rgba(31, 35, 40, 0.16);
   border-radius: 999px;
   font: inherit;
   font-size: 14px;
   color: inherit;
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.85);
+  background: #ffffff;
   cursor: pointer;
   transition:
     background 150ms,
@@ -85,24 +176,24 @@ body {
 }
 
 .pill:hover {
-  border-color: rgba(31, 43, 56, 0.32);
-  background: #ffffff;
+  border-color: rgba(31, 35, 40, 0.34);
+  background: #f6f7f9;
 }
 
 #big[aria-pressed="true"] {
-  border-color: rgba(31, 43, 56, 0.45);
-  background: #ffffff;
+  border-color: rgba(31, 35, 40, 0.45);
 }
 
 .now,
 .hint {
-  flex-basis: 100%;
-  margin: 0;
-  font-size: 14px;
+  margin: 10px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
   color: var(--muted);
 }
 
 .now {
+  font-size: 14px;
   color: var(--ink);
 }
 
@@ -121,6 +212,14 @@ body {
   cursor: pointer;
 }
 
+.credit {
+  max-width: 40ch;
+  margin: 18px 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
 /* Dragging a file over the page. */
 .drop {
   position: fixed;
@@ -128,7 +227,7 @@ body {
   z-index: 10;
   display: none;
   place-items: center;
-  border: 2px dashed rgba(39, 48, 31, 0.45);
+  border: 2px dashed rgba(31, 35, 40, 0.4);
   border-radius: 24px;
   background: rgba(255, 255, 255, 0.92);
   pointer-events: none;
@@ -337,93 +436,60 @@ body {
   color: #c9d2dc;
 }
 
-/* ---- Bottom ---- */
+/* ---- Layout ---- */
 
-.bottom {
-  display: grid;
-  justify-items: center;
-  gap: 10px;
-  padding: 6px 16px 22px;
-  text-align: center;
+/* Narrow: the side's top, then the SP, then the side's bottom. */
+.side {
+  display: contents;
 }
 
-.keys {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px 18px;
-  margin: 0;
-  font-size: 14px;
-  color: var(--muted);
+.side-top {
+  order: 1;
 }
 
-kbd {
-  display: inline-block;
-  min-width: 1.9em;
-  padding: 1px 6px;
-  border: 1px solid rgba(31, 43, 56, 0.2);
-  border-bottom-width: 2px;
-  border-radius: 5px;
-  font: inherit;
-  font-size: 12px;
-  color: var(--ink);
-  background: #f6f8fa;
+.stage {
+  order: 2;
 }
 
-.credit {
-  margin: 0;
-  font-size: 13px;
-  color: var(--muted);
+.side-bottom {
+  order: 3;
 }
 
-.credit a {
-  color: inherit;
-  text-underline-offset: 2px;
-}
-
-.credit a:hover {
-  color: var(--ink);
-}
-
-/* Wide screens: words on the left, the SP as tall as the window. */
+/* Wide: the side is a column that stays put while the SP scrolls, with how
+   to play at the top and the game files at the bottom. */
 @media (min-width: 960px) {
   .page {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    grid-template-rows: auto 1fr;
+    grid-template-columns: minmax(320px, 1fr) auto minmax(0, 1fr);
     align-items: start;
   }
 
-  .top {
+  .side {
+    position: sticky;
+    top: 0;
     grid-column: 1;
-    grid-row: 1;
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding: 28px 32px;
+    justify-content: space-between;
+    gap: 24px;
+    max-width: 420px;
+    height: 100vh;
+    height: 100dvh;
+    padding: 32px 36px 28px;
+  }
+
+  .side-top,
+  .side-bottom {
+    padding: 0;
   }
 
   .stage {
     grid-column: 2;
-    grid-row: 1 / 3;
     padding: 24px;
   }
 
   .sp {
     width: min(460px, calc((100dvh - 48px) * 0.5256));
-  }
-
-  .bottom {
-    grid-column: 1;
-    grid-row: 2;
-    justify-items: start;
-    padding: 4px 32px 28px;
-    text-align: left;
-  }
-
-  .keys {
-    flex-direction: column;
-    justify-content: flex-start;
   }
 }
 
@@ -436,10 +502,9 @@ kbd {
   }
 }
 
-/* Phones: the SP already fills the width, and the key list is for
-   keyboards. */
+/* Phones: the SP already fills the width, and the keys are for keyboards. */
 @media (pointer: coarse) {
-  .keys,
+  .howto,
   .hint:not(.warn),
   #big {
     display: none;
@@ -447,25 +512,29 @@ kbd {
 }
 
 @media (max-width: 600px) {
-  .top {
+  .side-top {
     padding: 12px 16px 4px;
   }
 
+  .side-bottom {
+    padding: 8px 16px 24px;
+  }
+
   .wordmark {
-    font-size: 26px;
+    font-size: 28px;
   }
 
   .lede {
     font-size: 14px;
   }
 
-  .pill {
-    padding: 6px 11px;
-    font-size: 13px;
+  .settings {
+    margin-top: 10px;
   }
 
-  .long {
-    display: none;
+  .pill {
+    padding: 6px 12px;
+    font-size: 13px;
   }
 }
 

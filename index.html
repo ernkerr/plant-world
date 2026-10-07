@@ -28,28 +28,62 @@
   </head>
   <body>
     <main class="page">
-      <header class="top">
-        <div>
+      <!-- The side: what it is and how to play up top; game files and
+           credits at the bottom. -->
+      <aside class="side">
+        <div class="side-top">
           <h1 class="wordmark">Plant World</h1>
-          <p class="lede">A little Game Boy game. Play it here, or put it on a real one.</p>
-        </div>
-        <div class="tools">
-          <button type="button" class="pill" id="sound" aria-pressed="true">Sound on</button>
-          <button type="button" class="pill" id="big" aria-pressed="true">Big screen</button>
-          <button type="button" class="pill" id="open">Play your own game</button>
-          <a class="pill" href="plant-world.gb" download="plant-world.gb">Download<span class="long"> the ROM</span></a>
-        </div>
-        <p class="now" id="now" hidden>
-          Playing <strong id="now-name"></strong>.
-          <button type="button" class="text-button" id="back">Back to Plant World</button>
-        </p>
-        <p class="hint" id="hint" aria-live="polite">Or drop a Game Boy or Game Boy Color game anywhere on the page. It stays on your device.</p>
-        <input type="file" id="file" hidden />
-      </header>
+          <p class="lede">
+            A little Game Boy game by <a href="https://erinkerr.me">Erin Kerr</a>. Play it here, or put it on a
+            real one.
+          </p>
+          <div class="settings">
+            <button type="button" class="pill" id="sound" aria-pressed="true">Sound on</button>
+            <button type="button" class="pill" id="big" aria-pressed="true">Big screen</button>
+          </div>
 
-      <!-- A light blue Game Boy Advance SP, opened, drawn in CSS. The buttons
-           are for touch screens; keyboards and game controllers have their
-           own mapping (below). -->
+          <section class="howto" aria-labelledby="howto-title">
+            <h2 class="side-label" id="howto-title">How to play</h2>
+            <p class="goal">
+              Get your sprout to the flag. Grab coins, stomp grubs and ladybugs, and keep away from spiky
+              burrs. Each flag unlocks the next of five levels.
+            </p>
+            <dl class="keys">
+              <div><dt><kbd>←</kbd><kbd>→</kbd></dt><dd>Run, and walk the map</dd></div>
+              <div><dt><kbd>↑</kbd><kbd>↓</kbd></dt><dd>Climb vines</dd></div>
+              <div><dt><kbd>X</kbd></dt><dd>Jump. Hold it to jump higher</dd></div>
+              <div><dt><kbd>Enter</kbd></dt><dd>Back to the map</dd></div>
+              <div><dt><kbd>Z</kbd><kbd>Shift</kbd></dt><dd>B and Select, for other games</dd></div>
+            </dl>
+            <p class="aside-note">A game controller works too.</p>
+          </section>
+        </div>
+
+        <footer class="side-bottom">
+          <section class="roms" aria-labelledby="roms-title">
+            <h2 class="side-label" id="roms-title">ROMs</h2>
+            <div class="tools">
+              <button type="button" class="pill" id="open">Play your own game</button>
+              <a class="pill" href="plant-world.gb" download="plant-world.gb">Download Plant World</a>
+            </div>
+            <p class="now" id="now" hidden>
+              Playing <strong id="now-name"></strong>.
+              <button type="button" class="text-button" id="back">Back to Plant World</button>
+            </p>
+            <p class="hint" id="hint" aria-live="polite">
+              Or drop a .gb or .gbc file anywhere on the page. It stays on your device.
+            </p>
+            <input type="file" id="file" hidden />
+          </section>
+          <p class="credit">
+            Runs on <a href="https://github.com/binji/binjgb">binjgb</a>, an open-source Game Boy emulator by
+            Ben Smith.
+          </p>
+        </footer>
+      </aside>
+
+      <!-- A light blue Game Boy Advance SP, opened. Its buttons are for touch
+           screens; keyboards and game controllers have their own mapping. -->
       <div class="stage">
         <div class="sp" id="sp">
           <!-- A pearl blue SP (AGS-101), opened and seen straight on. Drawn
@@ -312,19 +346,6 @@
         </div>
       </div>
 
-      <footer class="bottom">
-        <p class="keys" id="keys">
-          <span><kbd>←</kbd> <kbd>→</kbd> run</span>
-          <span><kbd>↑</kbd> <kbd>↓</kbd> climb</span>
-          <span><kbd>X</kbd> jump (A)</span>
-          <span><kbd>Z</kbd> B</span>
-          <span><kbd>Enter</kbd> start</span>
-        </p>
-        <p class="credit">
-          By <a href="https://erinkerr.me">Erin Kerr</a>. Runs on
-          <a href="https://github.com/binji/binjgb">binjgb</a>, an open-source Game Boy emulator by Ben Smith.
-        </p>
-      </footer>
     </main>
 
     <div class="drop" aria-hidden="true"><p>Drop it to play</p></div>
