@@ -1,0 +1,588 @@
+:root {
+  --paper: #e6e9dc;
+  --ink: #27301f;
+  --muted: #5d6852;
+
+  /* The handheld */
+  --body-hi: #dedbd4;
+  --body: #cdcac2;
+  --body-lo: #bfbcb3;
+  --bezel: #5d6070;
+  --bezel-text: #c4c7d4;
+  --navy: #2f3b8c;
+  --pad: #2a2a31;
+  --berry: #a3235c;
+  --capsule: #8e8d97;
+
+  /* The screen's four shades, lightest first (main.js uses the same ones) */
+  --shade-0: #e0f8d0;
+  --shade-3: #081820;
+
+  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* ---- Top ---- */
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding: 18px 24px 8px;
+}
+
+.wordmark {
+  margin: 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.lede {
+  margin: 4px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  padding: 8px 14px;
+  border: 1px solid rgba(39, 48, 31, 0.16);
+  border-radius: 999px;
+  font: inherit;
+  font-size: 14px;
+  color: inherit;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition:
+    background 150ms,
+    border-color 150ms;
+}
+
+.pill:hover {
+  border-color: rgba(39, 48, 31, 0.32);
+  background: #ffffff;
+}
+
+/* ---- The handheld ---- */
+
+.stage {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 12px 16px;
+}
+
+/* Everything inside is sized in cqw (a share of the handheld's width), so it
+   scales as one piece. */
+.gb {
+  position: relative;
+  container-type: inline-size;
+  width: min(420px, calc(100vw - 32px), calc((100dvh - 230px) * 90 / 148));
+  min-width: 260px;
+  aspect-ratio: 90 / 148;
+  border-radius: 2.5cqw 2.5cqw 17cqw 2.5cqw / 2.5cqw 2.5cqw 14cqw 2.5cqw;
+  background: linear-gradient(165deg, var(--body-hi), var(--body) 55%, var(--body-lo));
+  box-shadow:
+    inset -0.8cqw -1.2cqw 0 rgba(0, 0, 0, 0.07),
+    inset 0.6cqw 0.6cqw 0 rgba(255, 255, 255, 0.55),
+    0 2cqw 4cqw -1cqw rgba(40, 46, 30, 0.3),
+    0 12cqw 22cqw -10cqw rgba(40, 46, 30, 0.45);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.groove {
+  position: absolute;
+  top: 5cqw;
+  width: 9cqw;
+  height: 0.5cqw;
+  background: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0.35cqw 0 rgba(255, 255, 255, 0.5);
+}
+
+.groove.left {
+  left: 0;
+}
+
+.groove.right {
+  right: 0;
+}
+
+.bezel {
+  position: absolute;
+  top: 9cqw;
+  left: 7cqw;
+  right: 7cqw;
+  height: 66cqw;
+  border-radius: 3cqw 3cqw 12cqw 3cqw;
+  background: var(--bezel);
+  box-shadow: inset 0 0.4cqw 0.8cqw rgba(0, 0, 0, 0.25);
+}
+
+.bezel-label {
+  position: absolute;
+  top: 2.4cqw;
+  left: 4cqw;
+  right: 4cqw;
+  display: flex;
+  align-items: center;
+  gap: 2.4cqw;
+  margin: 0;
+  font-size: 2.2cqw;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: var(--bezel-text);
+  white-space: nowrap;
+}
+
+.bezel-label::before,
+.bezel-label::after {
+  content: "";
+  flex: 1;
+  height: 0.5cqw;
+  background: rgba(196, 199, 212, 0.35);
+}
+
+.led {
+  position: absolute;
+  top: 27cqw;
+  left: 4.4cqw;
+  width: 2.4cqw;
+  height: 2.4cqw;
+  border-radius: 50%;
+  background: #3a2326;
+  transition:
+    background 300ms,
+    box-shadow 300ms;
+}
+
+.led.on {
+  background: #ff4b4b;
+  box-shadow: 0 0 1.6cqw rgba(255, 75, 75, 0.85);
+}
+
+.led-label {
+  position: absolute;
+  top: 31cqw;
+  left: 2.6cqw;
+  font-size: 1.7cqw;
+  letter-spacing: 0.08em;
+  color: var(--bezel-text);
+}
+
+.lcd {
+  position: absolute;
+  top: 7.6cqw;
+  left: 50%;
+  width: 60cqw;
+  height: 54cqw;
+  margin-left: -30cqw;
+  background: var(--shade-0);
+  box-shadow:
+    inset 0.7cqw 0.9cqw 1.6cqw rgba(0, 0, 0, 0.28),
+    0 0 0 0.5cqw rgba(0, 0, 0, 0.18);
+}
+
+.lcd canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.lcd-note {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 4cqw;
+  font-size: 3.2cqw;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--shade-3);
+}
+
+.maker {
+  position: absolute;
+  top: 78cqw;
+  left: 8cqw;
+  margin: 0;
+  font-size: 5.6cqw;
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+}
+
+.maker span {
+  margin-right: 1.2cqw;
+  font-size: 3.6cqw;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+/* ---- Buttons ---- */
+
+.controls {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  touch-action: none;
+}
+
+.dpad,
+.round,
+.capsule {
+  pointer-events: auto;
+  touch-action: none;
+  cursor: pointer;
+}
+
+.dpad {
+  position: absolute;
+  top: 96cqw;
+  left: 7cqw;
+  width: 30cqw;
+  height: 30cqw;
+}
+
+/* The dish the pad sits in. */
+.dpad::before {
+  content: "";
+  position: absolute;
+  inset: -2.5cqw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.07) 55%, transparent 72%);
+}
+
+.arm,
+.hub {
+  position: absolute;
+  width: 10cqw;
+  height: 10cqw;
+  background: var(--pad);
+  transition: translate 60ms;
+}
+
+.arm.up {
+  top: 0;
+  left: 10cqw;
+  border-radius: 1.2cqw 1.2cqw 0 0;
+}
+
+.arm.down {
+  top: 20cqw;
+  left: 10cqw;
+  border-radius: 0 0 1.2cqw 1.2cqw;
+}
+
+.arm.left {
+  top: 10cqw;
+  left: 0;
+  border-radius: 1.2cqw 0 0 1.2cqw;
+}
+
+.arm.right {
+  top: 10cqw;
+  left: 20cqw;
+  border-radius: 0 1.2cqw 1.2cqw 0;
+}
+
+.hub {
+  top: 10cqw;
+  left: 10cqw;
+}
+
+.hub::after {
+  content: "";
+  position: absolute;
+  inset: 2.6cqw;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #3a3a42, #222228);
+}
+
+.arm {
+  box-shadow: 0 0.8cqw 0 #141418;
+}
+
+.hub {
+  box-shadow: 0 0.8cqw 0 #141418;
+}
+
+.arm.pressed {
+  translate: 0 0.5cqw;
+  box-shadow: 0 0.3cqw 0 #141418;
+  background: #222228;
+}
+
+.ab {
+  position: absolute;
+  inset: 0;
+}
+
+/* The tilted capsule A and B sit in. */
+.ab::before {
+  content: "";
+  position: absolute;
+  top: 100cqw;
+  left: 55cqw;
+  width: 40cqw;
+  height: 18cqw;
+  border-radius: 9cqw;
+  background: rgba(0, 0, 0, 0.06);
+  box-shadow: inset 0 0.5cqw 0.8cqw rgba(0, 0, 0, 0.08);
+  transform: rotate(-25deg);
+}
+
+.round {
+  position: absolute;
+  width: 14cqw;
+  height: 14cqw;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #c13a74, var(--berry) 60%, #861a4a);
+  box-shadow: 0 0.9cqw 0 #5e1032;
+  transition: translate 60ms;
+}
+
+.round.b {
+  top: 105cqw;
+  left: 58cqw;
+}
+
+.round.a {
+  top: 96.5cqw;
+  left: 76cqw;
+}
+
+.round.pressed {
+  translate: 0 0.6cqw;
+  box-shadow: 0 0.3cqw 0 #5e1032;
+  filter: brightness(0.9);
+}
+
+.ab-label {
+  position: absolute;
+  font-size: 3.4cqw;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--navy);
+}
+
+.ab-label.b {
+  top: 121cqw;
+  left: 63.6cqw;
+}
+
+.ab-label.a {
+  top: 112.5cqw;
+  left: 81.8cqw;
+}
+
+.menu {
+  position: absolute;
+  inset: 0;
+}
+
+.capsule {
+  position: absolute;
+  top: 135cqw;
+  width: 11cqw;
+  height: 3.2cqw;
+  border-radius: 2cqw;
+  background: var(--capsule);
+  box-shadow:
+    0 0.5cqw 0 #6b6a73,
+    0 0 0 0.9cqw rgba(0, 0, 0, 0.05);
+  transform: rotate(-25deg);
+  transition: translate 60ms;
+}
+
+/* A bigger target for fingers than the capsule itself. */
+.capsule::after {
+  content: "";
+  position: absolute;
+  inset: -2.5cqw -1.5cqw;
+}
+
+.capsule:first-child {
+  left: 31cqw;
+}
+
+.capsule:nth-child(2) {
+  left: 47cqw;
+}
+
+.capsule.pressed {
+  translate: 0 0.4cqw;
+  box-shadow: 0 0.15cqw 0 #6b6a73;
+}
+
+.menu-label {
+  position: absolute;
+  top: 140.5cqw;
+  font-size: 2.3cqw;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--navy);
+  transform: rotate(-25deg);
+}
+
+.menu-label.select {
+  left: 30.5cqw;
+}
+
+.menu-label.start {
+  left: 48.4cqw;
+}
+
+.speaker {
+  position: absolute;
+  right: 9cqw;
+  bottom: 11cqw;
+  display: flex;
+  gap: 2.3cqw;
+  transform: rotate(-30deg);
+}
+
+.speaker span {
+  width: 1.7cqw;
+  height: 13cqw;
+  border-radius: 1cqw;
+  background: rgba(0, 0, 0, 0.16);
+  box-shadow: inset 0.3cqw 0.4cqw 0.5cqw rgba(0, 0, 0, 0.25);
+}
+
+/* ---- Bottom ---- */
+
+.bottom {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 6px 16px 22px;
+  text-align: center;
+}
+
+.keys {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 18px;
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+kbd {
+  display: inline-block;
+  min-width: 1.9em;
+  padding: 1px 6px;
+  border: 1px solid rgba(39, 48, 31, 0.2);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--ink);
+  background: #f5f6ef;
+}
+
+.credit {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.credit a {
+  color: inherit;
+  text-underline-offset: 2px;
+}
+
+.credit a:hover {
+  color: var(--ink);
+}
+
+/* Phones: the handheld takes the screen; the key list is for keyboards. */
+@media (pointer: coarse) {
+  .keys {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .top {
+    padding: 12px 16px 4px;
+  }
+
+  .wordmark {
+    font-size: 26px;
+  }
+
+  .lede {
+    font-size: 14px;
+  }
+
+  .pill {
+    padding: 6px 11px;
+    font-size: 13px;
+  }
+
+  .gb {
+    width: min(420px, calc(100vw - 32px), calc((100dvh - 150px) * 90 / 148));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arm,
+  .round,
+  .capsule,
+  .led {
+    transition: none;
+  }
+}

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Plant World</title>
+    <meta
+      name="description"
+      content="A little Mario-style game for the original Game Boy, starring a plant in a pot. Play it here, or download it for a real Game Boy."
+    />
+    <meta property="og:title" content="Plant World" />
+    <meta
+      property="og:description"
+      content="A little Mario-style game for the original Game Boy, starring a plant in a pot."
+    />
+    <meta name="theme-color" content="#e6e9dc" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;800&family=Newsreader:ital,opsz,wght@1,6..72,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preload" href="vendor/binjgb.wasm" as="fetch" type="application/wasm" crossorigin />
+    <script src="vendor/binjgb.js" defer></script>
+    <script type="module" src="js/main.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="top">
+        <div>
+          <h1 class="wordmark">Plant World</h1>
+          <p class="lede">A little game for the original Game Boy. Play it here, or put it on a real one.</p>
+        </div>
+        <div class="tools">
+          <button type="button" class="pill" id="sound" aria-pressed="true">Sound on</button>
+          <a class="pill" href="plant-world.gb" download="plant-world.gb">Download the ROM</a>
+        </div>
+      </header>
+
+      <!-- A Game Boy, drawn in CSS. The buttons are for touch screens; the
+           keyboard and game controllers have their own mapping (below). -->
+      <div class="stage">
+        <div class="gb" id="gb">
+          <span class="groove left" aria-hidden="true"></span>
+          <span class="groove right" aria-hidden="true"></span>
+
+          <div class="bezel">
+            <p class="bezel-label" aria-hidden="true">PLANT WORLD</p>
+            <span class="led" id="led" aria-hidden="true"></span>
+            <span class="led-label" aria-hidden="true">POWER</span>
+            <div class="lcd">
+              <canvas id="screen" width="160" height="144" role="img" aria-label="The Game Boy screen"></canvas>
+              <p class="lcd-note" id="note" hidden></p>
+            </div>
+          </div>
+
+          <p class="maker" aria-hidden="true"><span>Erin Kerr</span> PLANT WORLD</p>
+
+          <div class="controls" aria-hidden="true">
+            <div class="dpad" data-pad>
+              <span class="arm up" data-dir="up"></span>
+              <span class="arm right" data-dir="right"></span>
+              <span class="arm down" data-dir="down"></span>
+              <span class="arm left" data-dir="left"></span>
+              <span class="hub"></span>
+            </div>
+            <div class="ab">
+              <span class="round b" data-button="B"></span>
+              <span class="round a" data-button="A"></span>
+              <span class="ab-label b">B</span>
+              <span class="ab-label a">A</span>
+            </div>
+            <div class="menu">
+              <span class="capsule" data-button="select"></span>
+              <span class="capsule" data-button="start"></span>
+              <span class="menu-label select">SELECT</span>
+              <span class="menu-label start">START</span>
+            </div>
+            <div class="speaker">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="bottom">
+        <p class="keys" id="keys">
+          <span><kbd>←</kbd> <kbd>→</kbd> run</span>
+          <span><kbd>↑</kbd> <kbd>↓</kbd> climb</span>
+          <span><kbd>X</kbd> jump (A)</span>
+          <span><kbd>Z</kbd> B</span>
+          <span><kbd>Enter</kbd> start</span>
+        </p>
+        <p class="credit">
+          By <a href="https://erinkerr.me">Erin Kerr</a>. Runs on
+          <a href="https://github.com/binji/binjgb">binjgb</a>, an open-source Game Boy emulator by Ben Smith.
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>
