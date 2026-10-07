@@ -1,7 +1,7 @@
 :root {
-  --paper: #fbf4e4;
+  --paper: #efeeea;
   --ink: #27301f;
-  --muted: #5d6852;
+  --muted: #4f5a46;
 
   --serif: "Newsreader", Georgia, "Times New Roman", serif;
   --sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -24,31 +24,26 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Wallpaper: little pixel things from Plant World (a sprout in its pot,
-   flowers, hearts, sparkles, clouds) drifting slowly, like a game menu. The
-   frame clips the drifting layer so it never makes the page scroll. */
+/* The wall: glossy white subway tiles in a running bond, with light falling
+   from above and the corners in shade. */
 .wallpaper {
   position: fixed;
   inset: 0;
   z-index: -1;
-  overflow: hidden;
   pointer-events: none;
+  background-color: #efeeea;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='132' height='132'><defs><linearGradient id='f' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23fdfdfc'/><stop offset='.6' stop-color='%23f7f6f3'/><stop offset='1' stop-color='%23efede8'/></linearGradient><linearGradient id='s' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23fff' stop-opacity='.75'/><stop offset='.28' stop-color='%23fff' stop-opacity='0'/></linearGradient></defs><rect width='132' height='132' fill='%23d9d6cf'/><g transform='translate(1.5 1.5)'><rect width='129' height='63' rx='3' fill='url(%23f)'/><rect width='129' height='63' rx='3' fill='url(%23s)'/><rect x='2' y='0.5' width='125' height='1.4' rx='0.7' fill='%23fff'/><rect x='0.5' y='2' width='1.2' height='59' fill='%23fff' opacity='.7'/><rect x='2' y='61.5' width='125' height='1.1' rx='0.55' fill='%23cdcac2' opacity='.75'/><rect x='127.5' y='2' width='1' height='59' fill='%23d3d0c8' opacity='.7'/></g><g transform='translate(-64.5 67.5)'><rect width='129' height='63' rx='3' fill='url(%23f)'/><rect width='129' height='63' rx='3' fill='url(%23s)'/><rect x='2' y='0.5' width='125' height='1.4' rx='0.7' fill='%23fff'/><rect x='0.5' y='2' width='1.2' height='59' fill='%23fff' opacity='.7'/><rect x='2' y='61.5' width='125' height='1.1' rx='0.55' fill='%23cdcac2' opacity='.75'/><rect x='127.5' y='2' width='1' height='59' fill='%23d3d0c8' opacity='.7'/></g><g transform='translate(67.5 67.5)'><rect width='129' height='63' rx='3' fill='url(%23f)'/><rect width='129' height='63' rx='3' fill='url(%23s)'/><rect x='2' y='0.5' width='125' height='1.4' rx='0.7' fill='%23fff'/><rect x='0.5' y='2' width='1.2' height='59' fill='%23fff' opacity='.7'/><rect x='2' y='61.5' width='125' height='1.1' rx='0.55' fill='%23cdcac2' opacity='.75'/><rect x='127.5' y='2' width='1' height='59' fill='%23d3d0c8' opacity='.7'/></g></svg>");
+  background-size: 132px 132px;
+  background-position: center top;
 }
 
-.wallpaper::before {
+.wallpaper::after {
   content: "";
   position: absolute;
-  inset: -216px 0 0 -216px;
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='216' height='216' shape-rendering='crispEdges'><rect x='21' y='20' width='3' height='3' fill='%239bd38a'/><rect x='39' y='20' width='3' height='3' fill='%239bd38a'/><rect x='18' y='23' width='9' height='3' fill='%239bd38a'/><rect x='36' y='23' width='9' height='3' fill='%239bd38a'/><rect x='21' y='26' width='9' height='3' fill='%239bd38a'/><rect x='33' y='26' width='9' height='3' fill='%239bd38a'/><rect x='27' y='29' width='3' height='3' fill='%239bd38a'/><rect x='30' y='29' width='3' height='3' fill='%236bb06a'/><rect x='33' y='29' width='3' height='3' fill='%239bd38a'/><rect x='30' y='32' width='3' height='3' fill='%236bb06a'/><rect x='21' y='35' width='21' height='3' fill='%23f2a582'/><rect x='24' y='38' width='3' height='3' fill='%23f2a582'/><rect x='27' y='38' width='3' height='3' fill='%238a5240'/><rect x='30' y='38' width='3' height='3' fill='%23f2a582'/><rect x='33' y='38' width='3' height='3' fill='%238a5240'/><rect x='36' y='38' width='3' height='3' fill='%23f2a582'/><rect x='24' y='41' width='15' height='3' fill='%23f2a582'/><rect x='27' y='44' width='9' height='3' fill='%23f2a582'/><rect x='141' y='26' width='3' height='3' fill='%23f6d670'/><rect x='141' y='29' width='3' height='3' fill='%23f6d670'/><rect x='138' y='32' width='9' height='3' fill='%23f6d670'/><rect x='132' y='35' width='21' height='3' fill='%23f6d670'/><rect x='138' y='38' width='9' height='3' fill='%23f6d670'/><rect x='141' y='41' width='3' height='3' fill='%23f6d670'/><rect x='141' y='44' width='3' height='3' fill='%23f6d670'/><rect x='87' y='96' width='3' height='3' fill='%23f7aac6'/><rect x='93' y='96' width='3' height='3' fill='%23f7aac6'/><rect x='84' y='99' width='15' height='3' fill='%23f7aac6'/><rect x='87' y='102' width='3' height='3' fill='%23f7aac6'/><rect x='90' y='102' width='3' height='3' fill='%23f8d66f'/><rect x='93' y='102' width='3' height='3' fill='%23f7aac6'/><rect x='84' y='105' width='15' height='3' fill='%23f7aac6'/><rect x='87' y='108' width='3' height='3' fill='%23f7aac6'/><rect x='93' y='108' width='3' height='3' fill='%23f7aac6'/><rect x='90' y='111' width='3' height='3' fill='%236bb06a'/><rect x='90' y='114' width='6' height='3' fill='%236bb06a'/><rect x='90' y='117' width='3' height='3' fill='%236bb06a'/><rect x='171' y='118' width='6' height='3' fill='%23f6b0c0'/><rect x='180' y='118' width='6' height='3' fill='%23f6b0c0'/><rect x='168' y='121' width='21' height='3' fill='%23f6b0c0'/><rect x='168' y='124' width='21' height='3' fill='%23f6b0c0'/><rect x='171' y='127' width='15' height='3' fill='%23f6b0c0'/><rect x='174' y='130' width='9' height='3' fill='%23f6b0c0'/><rect x='177' y='133' width='3' height='3' fill='%23f6b0c0'/><rect x='23' y='160' width='9' height='3' fill='%23d4e7f6'/><rect x='17' y='163' width='18' height='3' fill='%23d4e7f6'/><rect x='14' y='166' width='30' height='3' fill='%23d4e7f6'/><rect x='14' y='169' width='30' height='3' fill='%23d4e7f6'/><rect x='17' y='172' width='24' height='3' fill='%23d4e7f6'/><rect x='159' y='186' width='3' height='3' fill='%23f6d670'/><rect x='159' y='189' width='3' height='3' fill='%23f6d670'/><rect x='156' y='192' width='9' height='3' fill='%23f6d670'/><rect x='150' y='195' width='21' height='3' fill='%23f6d670'/><rect x='156' y='198' width='9' height='3' fill='%23f6d670'/><rect x='159' y='201' width='3' height='3' fill='%23f6d670'/><rect x='159' y='204' width='3' height='3' fill='%23f6d670'/></svg>");
-  background-size: 216px 216px;
-  opacity: 0.6;
-  animation: drift 36s linear infinite;
-}
-
-@keyframes drift {
-  to {
-    transform: translate(216px, 216px);
-  }
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 0%, rgba(255, 255, 255, 0.4), transparent 70%),
+    radial-gradient(ellipse 120% 100% at 50% 40%, transparent 55%, rgba(70, 66, 58, 0.16));
 }
 
 [hidden] {
@@ -68,6 +63,15 @@ body {
 }
 
 /* ---- Top ---- */
+
+/* Words sit right on the tile, so a soft halo keeps them clear of the
+   grout lines. */
+.top,
+.bottom {
+  text-shadow:
+    0 0 2px #ffffff,
+    0 0 8px rgba(255, 255, 255, 0.9);
+}
 
 .top {
   display: flex;
@@ -108,7 +112,7 @@ body {
   font-size: 14px;
   color: inherit;
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.85);
   cursor: pointer;
   transition:
     background 150ms,
@@ -161,7 +165,7 @@ body {
   place-items: center;
   border: 2px dashed rgba(39, 48, 31, 0.45);
   border-radius: 24px;
-  background: rgba(251, 244, 228, 0.86);
+  background: rgba(245, 244, 240, 0.9);
   pointer-events: none;
 }
 
@@ -501,10 +505,6 @@ kbd {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .wallpaper::before {
-    animation: none;
-  }
-
   .cap,
   .cross,
   .shade,
