@@ -279,12 +279,18 @@ function keepPrefs() {
 
 // L or R stretches a Game Boy game to fill the SP's wider screen, like the
 // real one.
+const stretchBtn = $("#stretch");
+function showStretch() {
+  lcd.classList.toggle("stretched", Boolean(prefs.stretched));
+  stretchBtn.setAttribute("aria-pressed", String(Boolean(prefs.stretched)));
+}
 function toggleStretch() {
   prefs.stretched = !prefs.stretched;
-  lcd.classList.toggle("stretched", prefs.stretched);
+  showStretch();
   keepPrefs();
 }
-lcd.classList.toggle("stretched", Boolean(prefs.stretched));
+showStretch();
+stretchBtn.addEventListener("click", toggleStretch);
 
 // The light button turns the screen light off and on.
 lcd.classList.toggle("dim", Boolean(prefs.dim));

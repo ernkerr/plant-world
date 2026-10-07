@@ -93,6 +93,11 @@ body {
   background: #ffffff;
 }
 
+#stretch[aria-pressed="true"] {
+  border-color: rgba(31, 43, 56, 0.45);
+  background: #ffffff;
+}
+
 /* ---- The SP ---- */
 
 .stage {
@@ -102,14 +107,14 @@ body {
   padding: 12px 16px;
 }
 
-/* The drawing is 820 by 1600 (an opened SP is about half as wide as it is
-   tall). The screen and glare are laid over it in percentages of that. */
+/* The drawing is 820 by 1560, about 82 by 156 mm for an opened SP. The
+   screen and glare are laid over it in percentages of that. */
 .sp {
   position: relative;
   container-type: inline-size;
-  width: min(440px, calc(100vw - 32px), calc((100dvh - 224px) * 0.5125));
+  width: min(440px, calc(100vw - 32px), calc((100dvh - 224px) * 0.5256));
   min-width: 250px;
-  aspect-ratio: 820 / 1600;
+  aspect-ratio: 820 / 1560;
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
@@ -122,46 +127,51 @@ body {
   height: 100%;
   overflow: visible;
   touch-action: none;
-  filter: drop-shadow(0 2.5cqw 3cqw rgba(28, 54, 96, 0.22)) drop-shadow(0 12cqw 14cqw rgba(28, 54, 96, 0.25));
+  filter: drop-shadow(0 1.5cqw 2cqw rgba(36, 60, 76, 0.22)) drop-shadow(0 10cqw 12cqw rgba(36, 60, 76, 0.22));
 }
 
-.print {
+/* Lettering. The name sits where the logo does, in silver on the lens; the
+   button labels are raised from the plastic, so each is drawn twice: a light
+   edge, then the letters. */
+.logo {
   font-family: var(--sans);
+  font-size: 34px;
+  font-style: italic;
   font-weight: 800;
-  fill: #3f5d85;
+  letter-spacing: 3px;
+  fill: #c3c8cd;
 }
 
-.glass-print {
-  font-size: 25px;
-  font-weight: 500;
-  letter-spacing: 11px;
-  fill: #8b95a2;
-}
-
-.glass-maker {
+.label,
+.label-light {
+  font-family: var(--sans);
   font-size: 19px;
   font-style: italic;
-  font-weight: 500;
-  fill: #5f6975;
+  font-weight: 800;
+  letter-spacing: 1.5px;
 }
 
-.shoulder-print {
-  font-size: 26px;
-  opacity: 0.75;
+.label {
+  fill: #86a1b1;
 }
 
-.small-print {
-  font-size: 15px;
-  letter-spacing: 2px;
+.label-light {
+  fill: #dbe8ef;
 }
 
-.key-print {
-  font-size: 32px;
+.emboss,
+.emboss-light {
+  font-family: var(--sans);
+  font-size: 28px;
+  font-weight: 800;
 }
 
-.menu-print {
-  font-size: 20px;
-  letter-spacing: 2.5px;
+.emboss {
+  fill: #bbbdbe;
+}
+
+.emboss-light {
+  fill: #dcdddd;
 }
 
 .hit {
@@ -178,13 +188,13 @@ body {
 }
 
 .shade {
-  fill: #1b3760;
+  fill: #2e4a5c;
   opacity: 0;
   transition: opacity 60ms;
 }
 
 .pressed .cap {
-  transform: translateY(4px);
+  transform: translateY(3px);
 }
 
 .pressed .shade {
@@ -192,7 +202,7 @@ body {
 }
 
 .arm {
-  fill: #1b3760;
+  fill: #2e4a5c;
   opacity: 0;
   transition: opacity 60ms;
 }
@@ -202,7 +212,7 @@ body {
 }
 
 .led .dot {
-  fill: #4b6688;
+  fill: #45606f;
   transition: fill 300ms;
 }
 
@@ -216,18 +226,18 @@ body {
 }
 
 .led.on .glow {
-  opacity: 1;
+  opacity: 0.4;
 }
 
-/* The window in the lid is 612 by 408 of the drawing's 820 by 1600. The SP's
+/* The window in the lid is 610 by 407 at 105, 110 in the drawing. The SP's
    screen is 240 by 160 and a Game Boy game is 160 by 144, so the game sits in
    the middle with black around it, unless you stretch it with L or R. */
 .lcd {
   position: absolute;
-  top: 6.25%;
-  left: 12.683%;
-  width: 74.634%;
-  height: 25.5%;
+  top: 7.0513%;
+  left: 12.8049%;
+  width: 74.3902%;
+  height: 26.0897%;
   overflow: hidden;
   background: #000000;
   transition: filter 250ms;
@@ -267,17 +277,17 @@ body {
   color: #c9d2dc;
 }
 
-/* The glass over the whole black panel (724 by 676 at 48, 50). */
+/* The lens over the screen (660 by 555 at 80, 85). */
 .glare {
   position: absolute;
-  top: 3.125%;
-  left: 5.854%;
-  width: 88.293%;
-  height: 42.25%;
-  border-radius: 5.5% / 5.9%;
+  top: 5.4487%;
+  left: 9.7561%;
+  width: 80.4878%;
+  height: 35.5769%;
+  border-radius: 2.12% / 2.52%;
   background:
-    linear-gradient(118deg, rgba(255, 255, 255, 0.11) 0%, rgba(255, 255, 255, 0.045) 36%, transparent 36.5%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 8%);
+    linear-gradient(120deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.04) 34%, transparent 34.5%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 6%);
   pointer-events: none;
 }
 
@@ -353,7 +363,7 @@ kbd {
   }
 
   .sp {
-    width: min(460px, calc((100dvh - 48px) * 0.5125));
+    width: min(460px, calc((100dvh - 48px) * 0.5256));
   }
 
   .bottom {
