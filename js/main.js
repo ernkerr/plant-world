@@ -4,7 +4,7 @@
 // it your button presses.
 
 const ROM = "plant-world.gb";
-const SAVE_KEY = "plant-world:save";
+const PLANT_SAVE = "plant-world:save";
 
 const TICKS_PER_SECOND = 4194304;
 const MAX_STEP = 5 / 60; // never run more than 5 frames to catch up
@@ -20,6 +20,11 @@ const canvas = $("#screen");
 const screen = canvas.getContext("2d");
 const image = screen.createImageData(160, 144);
 const note = $("#note");
+
+const rgba = (hex) => {
+  const n = parseInt(hex.slice(1), 16);
+  return (0xff000000 | ((n & 0xff) << 16) | (n & 0xff00) | (n >> 16)) >>> 0;
+};
 
 function say(text) {
   note.textContent = text;
@@ -86,12 +91,15 @@ function withSaveBuffer(fn) {
   }
 }
 
-// ---- The save (high scores and unlocked levels), kept in this browser ----
+// ---- The save (Plant World's high scores and unlocked levels, or another
+// game's battery save), kept in this browser, one per game ----
+
+let saveKey = PLANT_SAVE;
 
 function loadSave() {
   let saved = null;
   try {
-    const text = localStorage.getItem(SAVE_KEY);
+    const text = localStorage.getItem(saveKey);
     if (text) saved = Uint8Array.from(atob(text), (c) => c.charCodeAt(0));
   } catch {
     return;
@@ -115,7 +123,7 @@ function writeSave() {
   let text = "";
   for (const b of bytes) text += String.fromCharCode(b);
   try {
-    localStorage.setItem(SAVE_KEY, btoa(text));
+    localStorage.setItem(saveKey, btoa(text));
   } catch {
     // Private windows can refuse; the game still plays.
   }
@@ -352,6 +360,7 @@ function runUntil(ticks) {
 
 function tick(ms) {
   requestAnimationFrame(tick);
+  if (!e) return;
   const sec = ms / 1000;
   const step = Math.min(Math.max(sec - (lastSec || sec), 0), MAX_STEP);
   lastSec = sec;
@@ -368,6 +377,143 @@ document.addEventListener("visibilitychange", () => {
   if (document.hidden) writeSave();
 });
 
+// ---- Cartridges ----
+
+// Original Game Boy games carry no colors of their own. A Game Boy Color or
+// SP shows most of them in these.
+const DMG_COLORS = [
+  ["#ffffff", "#7bff31", "#0063c5", "#000000"],
+  ["#ffffff", "#ff8484", "#943a3a", "#000000"],
+  ["#ffffff", "#ff8484", "#943a3a", "#000000"],
+];
+
+let plantCart = null;
+let joypad = 0;
+
+// Put a cartridge in: stop the last game (keeping its save), start this one
+// with its own save. Returns false if it isn't a game binjgb can run.
+function boot(cart, key) {
+  writeSave();
+  // binjgb owns the cartridge's memory once it has it, and frees it when
+  // the emulator is deleted (or fails to start), so it's never freed here.
+  if (e) {
+    m._emulator_delete(e);
+    m._joypad_delete(joypad);
+    e = 0;
+  }
+  const size = (cart.length + 0x7fff) & ~0x7fff;
+  const rom = m._malloc(size);
+  if (!rom) return false;
+  view(rom, size).fill(0).set(cart);
+  e = m._emulator_new_simple(rom, size, audio?.sampleRate ?? 44100, AUDIO_FRAMES, 0);
+  if (!e) return false;
+  joypad = m._joypad_new();
+  m._emulator_set_default_joypad_callback(e, joypad);
+  if (!(cart[0x143] & 0x80)) {
+    DMG_COLORS.forEach((shades, layer) => m._emulator_set_bw_palette_simple(e, layer, ...shades.map(rgba)));
+  }
+  frame = view(m._get_frame_buffer_ptr(e), m._get_frame_buffer_size(e));
+  samples = view(m._get_audio_buffer_ptr(e), m._get_audio_buffer_capacity(e));
+  saveKey = key;
+  saveDirty = false;
+  loadSave();
+  for (const b of held) m[`_set_joyp_${b}`](e, 1);
+  leftover = 0;
+  lastSec = 0;
+  return true;
+}
+
+// ---- Your own games ----
+
+const fileInput = $("#file");
+const hint = $("#hint");
+const now = $("#now");
+const HINT = hint.textContent;
+let hintTimer = 0;
+
+function tell(text) {
+  hint.textContent = text;
+  hint.classList.add("warn");
+  clearTimeout(hintTimer);
+  hintTimer = setTimeout(() => {
+    hint.textContent = HINT;
+    hint.classList.remove("warn");
+  }, 6000);
+}
+
+// A short fingerprint of the cartridge, so each game keeps its own save.
+async function fingerprint(cart) {
+  if (crypto.subtle) {
+    const hash = new Uint8Array(await crypto.subtle.digest("SHA-1", cart));
+    return Array.from(hash.slice(0, 8), (b) => b.toString(16).padStart(2, "0")).join("");
+  }
+  let h = 0x811c9dc5;
+  for (const b of cart) h = Math.imul(h ^ b, 0x01000193);
+  return `${(h >>> 0).toString(16)}-${cart.length}`;
+}
+
+async function playFile(file) {
+  if (!m) return;
+  if (/\.gba$/i.test(file.name)) {
+    tell("That's a Game Boy Advance game. This plays Game Boy and Game Boy Color games.");
+    return;
+  }
+  if (file.size < 0x150 || file.size > 8 * 1024 * 1024) {
+    tell("That doesn't look like a Game Boy game.");
+    return;
+  }
+  const cart = new Uint8Array(await file.arrayBuffer());
+  if (!boot(cart, `gb-save:${await fingerprint(cart)}`)) {
+    boot(plantCart, PLANT_SAVE);
+    now.hidden = true;
+    tell("That doesn't look like a Game Boy game.");
+    return;
+  }
+  $("#now-name").textContent = file.name.replace(/\.[^.]+$/, "");
+  now.hidden = false;
+  clearTimeout(hintTimer);
+  hint.textContent = HINT;
+  hint.classList.remove("warn");
+  document.activeElement?.blur();
+}
+
+$("#open").addEventListener("click", () => fileInput.click());
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files?.[0];
+  fileInput.value = "";
+  if (file) playFile(file);
+});
+$("#back").addEventListener("click", () => {
+  boot(plantCart, PLANT_SAVE);
+  now.hidden = true;
+  document.activeElement?.blur();
+});
+
+// Drop a file anywhere on the page.
+let dragDepth = 0;
+const carriesFile = (ev) => ev.dataTransfer?.types?.includes("Files");
+window.addEventListener("dragenter", (ev) => {
+  if (!carriesFile(ev)) return;
+  ev.preventDefault();
+  dragDepth += 1;
+  document.body.classList.add("dropping");
+});
+window.addEventListener("dragover", (ev) => {
+  if (carriesFile(ev)) ev.preventDefault();
+});
+window.addEventListener("dragleave", () => {
+  dragDepth = Math.max(0, dragDepth - 1);
+  if (!dragDepth) document.body.classList.remove("dropping");
+});
+window.addEventListener("drop", (ev) => {
+  if (!carriesFile(ev)) return;
+  ev.preventDefault();
+  dragDepth = 0;
+  document.body.classList.remove("dropping");
+  const file = ev.dataTransfer.files[0];
+  if (file) playFile(file);
+});
+
 async function start() {
   say("Loading...");
   try {
@@ -380,17 +526,8 @@ async function start() {
     ]);
     m = module;
     // The SP plays it in color, as a Game Boy Color would.
-    const cart = new Uint8Array(rom);
-    const size = (cart.length + 0x7fff) & ~0x7fff;
-    const ptr = m._malloc(size);
-    view(ptr, size).fill(0).set(cart);
-    e = m._emulator_new_simple(ptr, size, audio?.sampleRate ?? 44100, AUDIO_FRAMES, 0);
-    if (!e) throw new Error("The emulator couldn't read the cartridge.");
-    m._emulator_set_default_joypad_callback(e, m._joypad_new());
-    frame = view(m._get_frame_buffer_ptr(e), m._get_frame_buffer_size(e));
-    samples = view(m._get_audio_buffer_ptr(e), m._get_audio_buffer_capacity(e));
-    loadSave();
-    for (const b of held) m[`_set_joyp_${b}`](e, 1);
+    plantCart = new Uint8Array(rom);
+    if (!boot(plantCart, PLANT_SAVE)) throw new Error("The emulator couldn't read the cartridge.");
     say("");
     $("#led").classList.add("on");
     requestAnimationFrame(tick);

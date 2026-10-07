@@ -24,6 +24,14 @@ whole SP. The light button turns the screen light off.
 High scores and unlocked levels save in your browser, like the battery save on
 a real cartridge.
 
+## Play your own games
+
+The SP plays other Game Boy and Game Boy Color games too. Press "Play your own
+game", or drop a `.gb` or `.gbc` file anywhere on the page. The file stays in
+your browser; nothing is uploaded. Each game keeps its own battery save.
+Original Game Boy games show in the colors a Game Boy Color or SP gives them.
+Game Boy Advance games (`.gba`) don't run here.
+
 ## How it works
 
 The page runs [binjgb](https://github.com/binji/binjgb), Ben Smith's Game Boy
