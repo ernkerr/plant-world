@@ -17,9 +17,11 @@ On a keyboard: arrows (or WASD) move, **X** or **Space** is A, **Z** is B,
 **Enter** is Start. On a phone, use the buttons on the SP. Game controllers
 work too.
 
-Like a real SP, the game sits in the middle of the wider screen. Press **L** or
-**R** to stretch it to fill the screen, and the light button to turn the
-screen light off.
+The SP's screen is wider than a Game Boy game. Like on a real SP, the game
+fills the screen; press **L** or **R** (or "Fill the screen") to show it at
+its own size in the middle instead. On a computer, "Big screen" draws the SP
+larger than the window so the game is easy to see; turn it off to see the
+whole SP. The light button turns the screen light off.
 
 High scores and unlocked levels save in your browser, like the battery save on
 a real cartridge.

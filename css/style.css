@@ -93,7 +93,8 @@ body {
   background: #ffffff;
 }
 
-#stretch[aria-pressed="true"] {
+#stretch[aria-pressed="true"],
+#big[aria-pressed="true"] {
   border-color: rgba(31, 43, 56, 0.45);
   background: #ffffff;
 }
@@ -127,7 +128,7 @@ body {
   height: 100%;
   overflow: visible;
   touch-action: none;
-  filter: drop-shadow(0 1.5cqw 2cqw rgba(36, 60, 76, 0.22)) drop-shadow(0 10cqw 12cqw rgba(36, 60, 76, 0.22));
+  filter: drop-shadow(0 1.5cqw 2cqw rgba(19, 56, 93, 0.22)) drop-shadow(0 10cqw 12cqw rgba(19, 56, 93, 0.22));
 }
 
 /* Lettering. The name sits where the logo does, in silver on the lens; the
@@ -152,7 +153,7 @@ body {
 }
 
 .label {
-  fill: #86a1b1;
+  fill: #749bc3;
 }
 
 .label-light {
@@ -188,7 +189,7 @@ body {
 }
 
 .shade {
-  fill: #2e4a5c;
+  fill: #1a4570;
   opacity: 0;
   transition: opacity 60ms;
 }
@@ -202,7 +203,7 @@ body {
 }
 
 .arm {
-  fill: #2e4a5c;
+  fill: #1a4570;
   opacity: 0;
   transition: opacity 60ms;
 }
@@ -212,7 +213,7 @@ body {
 }
 
 .led .dot {
-  fill: #45606f;
+  fill: #335a81;
   transition: fill 300ms;
 }
 
@@ -344,7 +345,8 @@ kbd {
   .page {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    grid-template-rows: 1fr auto;
+    grid-template-rows: auto 1fr;
+    align-items: start;
   }
 
   .top {
@@ -370,7 +372,7 @@ kbd {
     grid-column: 1;
     grid-row: 2;
     justify-items: start;
-    padding: 28px 32px;
+    padding: 4px 32px 28px;
     text-align: left;
   }
 
@@ -380,9 +382,20 @@ kbd {
   }
 }
 
-/* Phones: the SP takes the screen; the key list is for keyboards. */
+/* Big screen, on computers: the SP is drawn taller than the window, down
+   to just below A and B, so the screen is big. The rest of it is a scroll
+   away; you play with the keyboard. */
+@media (pointer: fine) {
+  .page.big .sp {
+    width: min(660px, calc(100vw - 32px), calc((100dvh - 40px) * 0.5256 / 0.75));
+  }
+}
+
+/* Phones: the SP already fills the width, and the key list is for
+   keyboards. */
 @media (pointer: coarse) {
-  .keys {
+  .keys,
+  #big {
     display: none;
   }
 }

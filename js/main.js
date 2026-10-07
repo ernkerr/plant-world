@@ -262,16 +262,19 @@ for (const type of ["pointerup", "pointercancel", "lostpointercapture"]) {
 // ---- The SP's own buttons ----
 
 const lcd = $("#lcd");
+// The game fills the screen and, on a computer, the SP is drawn big, unless
+// you've turned those off.
 const prefs = (() => {
+  const start = { stretched: true, big: true, dim: false };
   try {
-    return JSON.parse(localStorage.getItem("plant-world:screen")) ?? {};
+    return { ...start, ...JSON.parse(localStorage.getItem("plant-world:view")) };
   } catch {
-    return {};
+    return start;
   }
 })();
 function keepPrefs() {
   try {
-    localStorage.setItem("plant-world:screen", JSON.stringify(prefs));
+    localStorage.setItem("plant-world:view", JSON.stringify(prefs));
   } catch {
     // Fine to forget.
   }
@@ -291,6 +294,18 @@ function toggleStretch() {
 }
 showStretch();
 stretchBtn.addEventListener("click", toggleStretch);
+
+const bigBtn = $("#big");
+function showBig() {
+  $(".page").classList.toggle("big", prefs.big);
+  bigBtn.setAttribute("aria-pressed", String(prefs.big));
+}
+showBig();
+bigBtn.addEventListener("click", () => {
+  prefs.big = !prefs.big;
+  showBig();
+  keepPrefs();
+});
 
 // The light button turns the screen light off and on.
 lcd.classList.toggle("dim", Boolean(prefs.dim));
