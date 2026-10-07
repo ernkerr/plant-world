@@ -41,7 +41,7 @@ python3 -m http.server
 
 | file | what it is |
 | --- | --- |
-| `index.html`, `css/style.css` | the page and the SP, drawn in CSS |
+| `index.html`, `css/style.css` | the page and the SP (an SVG drawing) |
 | `js/main.js` | loads the cartridge, draws frames, plays sound, saves, reads buttons |
 | `plant-world.gb` | the game |
 | `vendor/` | binjgb (MIT) |

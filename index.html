@@ -44,49 +44,218 @@
            own mapping (below). -->
       <div class="stage">
         <div class="sp" id="sp">
-          <div class="lid">
-            <div class="glass">
-              <div class="lcd" id="lcd">
-                <canvas id="screen" width="160" height="144" role="img" aria-label="The Game Boy screen"></canvas>
-                <p class="lcd-note" id="note" hidden></p>
-              </div>
-              <p class="glass-label" aria-hidden="true">PLANT WORLD</p>
-            </div>
+          <!-- A pearl blue SP, opened. Drawn in SVG; the screen is a canvas
+               laid over the window in the lid. -->
+          <svg viewBox="0 0 820 1600" aria-hidden="true">
+            <defs>
+              <linearGradient id="rim-lid" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#eef5fd" />
+                <stop offset="0.08" stop-color="#bdd6f0" />
+                <stop offset="0.9" stop-color="#95b6dc" />
+                <stop offset="1" stop-color="#7094c1" />
+              </linearGradient>
+              <linearGradient id="rim-base" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#e6f0fb" />
+                <stop offset="0.05" stop-color="#bad4ef" />
+                <stop offset="0.88" stop-color="#93b4db" />
+                <stop offset="1" stop-color="#6589b8" />
+              </linearGradient>
+              <linearGradient id="face" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#d3e6f8" />
+                <stop offset="0.5" stop-color="#b3cfed" />
+                <stop offset="1" stop-color="#9cbde2" />
+              </linearGradient>
+              <!-- The pearl finish: a soft, faintly lilac shine. -->
+              <radialGradient id="pearl" cx="0.28" cy="0.18" r="0.85">
+                <stop offset="0" stop-color="#f6f2ff" stop-opacity="0.6" />
+                <stop offset="0.55" stop-color="#eef0ff" stop-opacity="0.12" />
+                <stop offset="1" stop-color="#eef0ff" stop-opacity="0" />
+              </radialGradient>
+              <linearGradient id="barrel" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#9ebee2" />
+                <stop offset="0.2" stop-color="#e9f2fc" />
+                <stop offset="0.4" stop-color="#c3daf2" />
+                <stop offset="0.8" stop-color="#90b2da" />
+                <stop offset="1" stop-color="#6a8ebc" />
+              </linearGradient>
+              <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#1d2026" />
+                <stop offset="1" stop-color="#0b0c0f" />
+              </linearGradient>
+              <radialGradient id="key" cx="0.4" cy="0.32" r="0.8">
+                <stop offset="0" stop-color="#b6cae6" />
+                <stop offset="0.55" stop-color="#8aa6cc" />
+                <stop offset="1" stop-color="#6584b0" />
+              </radialGradient>
+              <linearGradient id="dpad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#a3badb" />
+                <stop offset="1" stop-color="#6383b0" />
+              </linearGradient>
+              <radialGradient id="dimple">
+                <stop offset="0" stop-color="#55739f" />
+                <stop offset="1" stop-color="#7d99c2" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="dish">
+                <stop offset="0.55" stop-color="#3e5f8c" stop-opacity="0.14" />
+                <stop offset="0.85" stop-color="#3e5f8c" stop-opacity="0.07" />
+                <stop offset="1" stop-color="#3e5f8c" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="hole" cx="0.5" cy="0.42" r="0.6">
+                <stop offset="0.6" stop-color="#223a5c" stop-opacity="0.75" />
+                <stop offset="1" stop-color="#4a6a96" stop-opacity="0.35" />
+              </radialGradient>
+              <radialGradient id="glow">
+                <stop offset="0" stop-color="#8dffa0" stop-opacity="0.9" />
+                <stop offset="1" stop-color="#8dffa0" stop-opacity="0" />
+              </radialGradient>
+              <filter id="lift" x="-30%" y="-30%" width="160%" height="170%">
+                <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#1c3660" flood-opacity="0.38" />
+              </filter>
+              <filter id="soft" x="-10%" y="-40%" width="120%" height="180%">
+                <feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#1c3660" flood-opacity="0.3" />
+              </filter>
+              <!-- A fine grain, so the plastic isn't perfectly smooth. -->
+              <filter id="grain" x="0" y="0" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" />
+                <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.09 0" />
+                <feComposite in2="SourceGraphic" operator="in" />
+              </filter>
+            </defs>
+
+            <!-- Bottom half -->
+            <path d="M 26 800 H 794 A 26 26 0 0 1 820 826 V 1480 A 120 120 0 0 1 700 1600 H 120 A 120 120 0 0 1 0 1480 V 826 A 26 26 0 0 1 26 800 Z" fill="url(#rim-base)" />
+            <path id="base-face" d="M 27 807 H 793 A 20 20 0 0 1 813 827 V 1478 A 112 112 0 0 1 701 1589 H 119 A 112 112 0 0 1 7 1478 V 827 A 20 20 0 0 1 27 807 Z" fill="url(#face)" />
+            <use href="#base-face" fill="url(#pearl)" />
+            <use href="#base-face" filter="url(#grain)" />
+
+            <!-- Lid -->
+            <path d="M 96 0 H 724 A 96 96 0 0 1 820 96 V 749 A 26 26 0 0 1 794 775 H 26 A 26 26 0 0 1 0 749 V 96 A 96 96 0 0 1 96 0 Z" fill="url(#rim-lid)" />
+            <path id="lid-face" d="M 96 6 H 724 A 89 89 0 0 1 813 95 V 749 A 20 20 0 0 1 793 768 H 27 A 20 20 0 0 1 7 749 V 95 A 89 89 0 0 1 96 6 Z" fill="url(#face)" />
+            <use href="#lid-face" fill="url(#pearl)" />
+            <use href="#lid-face" filter="url(#grain)" />
+
+            <!-- The black glass, sunk a little into the lid -->
+            <rect x="43" y="45" width="734" height="686" rx="45" fill="#46658f" opacity="0.45" />
+            <rect x="48" y="50" width="724" height="676" rx="40" fill="url(#panel)" />
+            <rect x="49" y="51" width="722" height="674" rx="39" fill="none" stroke="#3a4048" stroke-width="2" />
+            <rect x="97" y="93" width="626" height="422" rx="3" fill="#050607" />
+            <rect x="104" y="100" width="612" height="408" fill="#000000" />
+            <text class="print glass-print" x="410" y="606" text-anchor="middle">PLANT WORLD</text>
+            <text class="print glass-maker" x="410" y="646" text-anchor="middle">Erin Kerr</text>
+
+            <!-- The hinge: the knuckles on each end hold L and R -->
+            <g class="key" data-shoulder>
+              <rect x="0" y="750" width="142" height="100" rx="48" fill="url(#barrel)" filter="url(#soft)" />
+              <text class="print shoulder-print" x="78" y="810" text-anchor="middle">L</text>
+              <rect class="shade" x="0" y="750" width="142" height="100" rx="48" />
+            </g>
+            <g class="key" data-shoulder>
+              <rect x="678" y="750" width="142" height="100" rx="48" fill="url(#barrel)" filter="url(#soft)" />
+              <text class="print shoulder-print" x="742" y="810" text-anchor="middle">R</text>
+              <rect class="shade" x="678" y="750" width="142" height="100" rx="48" />
+            </g>
+            <rect x="150" y="742" width="520" height="104" rx="52" fill="url(#barrel)" filter="url(#soft)" />
+
+            <!-- Power light -->
+            <g class="led" id="led">
+              <circle class="glow" cx="96" cy="905" r="30" fill="url(#glow)" />
+              <circle cx="96" cy="905" r="12" fill="#3f5b80" opacity="0.5" />
+              <circle class="dot" cx="96" cy="905" r="9" />
+            </g>
+            <text class="print small-print" x="96" y="948" text-anchor="middle">POWER</text>
+
+            <!-- The light button -->
+            <circle cx="410" cy="910" r="33" fill="url(#hole)" />
+            <g class="key" data-light>
+              <circle class="hit" cx="410" cy="910" r="48" />
+              <g class="cap" filter="url(#lift)">
+                <circle cx="410" cy="910" r="27" fill="url(#key)" />
+                <g fill="none" stroke="#eef4fb" stroke-width="3" stroke-linecap="round" opacity="0.9">
+                  <circle cx="410" cy="910" r="7" />
+                  <path d="M 410 892 v 5 M 410 923 v 5 M 392 910 h 5 M 423 910 h 5 M 397 897 l 4 4 M 419 919 l 4 4 M 397 923 l 4 -4 M 419 901 l 4 -4" />
+                </g>
+                <circle class="shade" cx="410" cy="910" r="27" />
+              </g>
+            </g>
+
+            <!-- D-pad, in its dish -->
+            <circle cx="215" cy="1120" r="158" fill="url(#dish)" />
+            <g data-pad transform="translate(215 1120)">
+              <circle class="hit" r="150" />
+              <path d="M -31 -127 H 31 Q 47 -127 47 -111 V -47 H 111 Q 127 -47 127 -31 V 31 Q 127 47 111 47 H 47 V 111 Q 47 127 31 127 H -31 Q -47 127 -47 111 V 47 H -111 Q -127 47 -127 31 V -31 Q -127 -47 -111 -47 H -47 V -111 Q -47 -127 -31 -127 Z" fill="url(#hole)" />
+              <g filter="url(#lift)">
+                <path d="M -28 -120 H 28 Q 40 -120 40 -108 V -40 H 108 Q 120 -40 120 -28 V 28 Q 120 40 108 40 H 40 V 108 Q 40 120 28 120 H -28 Q -40 120 -40 108 V 40 H -108 Q -120 40 -120 28 V -28 Q -120 -40 -108 -40 H -40 V -108 Q -40 -120 -28 -120 Z" fill="url(#dpad)" />
+                <path d="M -28 -120 H 28 Q 40 -120 40 -108 V -40 H 108 Q 120 -40 120 -28 V 28 Q 120 40 108 40 H 40 V 108 Q 40 120 28 120 H -28 Q -40 120 -40 108 V 40 H -108 Q -120 40 -120 28 V -28 Q -120 -40 -108 -40 H -40 V -108 Q -40 -120 -28 -120 Z" fill="none" stroke="#dbe6f5" stroke-opacity="0.45" stroke-width="2" />
+                <circle r="26" fill="url(#dimple)" />
+                <g fill="#4e6d99" opacity="0.6">
+                  <path d="M 0 -102 L 13 -84 L -13 -84 Z" />
+                  <path d="M 0 102 L 13 84 L -13 84 Z" />
+                  <path d="M -102 0 L -84 -13 L -84 13 Z" />
+                  <path d="M 102 0 L 84 -13 L 84 13 Z" />
+                </g>
+                <rect class="arm" data-dir="up" x="-40" y="-120" width="80" height="80" rx="12" />
+                <rect class="arm" data-dir="down" x="-40" y="40" width="80" height="80" rx="12" />
+                <rect class="arm" data-dir="left" x="-120" y="-40" width="80" height="80" rx="12" />
+                <rect class="arm" data-dir="right" x="40" y="-40" width="80" height="80" rx="12" />
+              </g>
+            </g>
+
+            <!-- B and A -->
+            <circle cx="548" cy="1128" r="70" fill="url(#hole)" />
+            <g class="key" data-button="B">
+              <circle class="hit" cx="548" cy="1128" r="84" />
+              <g class="cap" filter="url(#lift)">
+                <circle cx="548" cy="1128" r="62" fill="url(#key)" />
+                <ellipse cx="528" cy="1102" rx="24" ry="14" fill="#ffffff" opacity="0.16" transform="rotate(-25 528 1102)" />
+                <circle class="shade" cx="548" cy="1128" r="62" />
+              </g>
+            </g>
+            <circle cx="690" cy="1032" r="70" fill="url(#hole)" />
+            <g class="key" data-button="A">
+              <circle class="hit" cx="690" cy="1032" r="84" />
+              <g class="cap" filter="url(#lift)">
+                <circle cx="690" cy="1032" r="62" fill="url(#key)" />
+                <ellipse cx="670" cy="1006" rx="24" ry="14" fill="#ffffff" opacity="0.16" transform="rotate(-25 670 1006)" />
+                <circle class="shade" cx="690" cy="1032" r="62" />
+              </g>
+            </g>
+            <text class="print key-print" x="590" y="1236" text-anchor="middle">B</text>
+            <text class="print key-print" x="732" y="1140" text-anchor="middle">A</text>
+
+            <!-- SELECT and START -->
+            <circle cx="708" cy="1330" r="32" fill="url(#hole)" />
+            <g class="key" data-button="select">
+              <circle class="hit" cx="680" cy="1330" r="44" />
+              <g class="cap" filter="url(#lift)">
+                <circle cx="708" cy="1330" r="26" fill="url(#key)" />
+                <circle class="shade" cx="708" cy="1330" r="26" />
+              </g>
+            </g>
+            <circle cx="708" cy="1424" r="32" fill="url(#hole)" />
+            <g class="key" data-button="start">
+              <circle class="hit" cx="680" cy="1424" r="44" />
+              <g class="cap" filter="url(#lift)">
+                <circle cx="708" cy="1424" r="26" fill="url(#key)" />
+                <circle class="shade" cx="708" cy="1424" r="26" />
+              </g>
+            </g>
+            <text class="print menu-print" x="660" y="1338" text-anchor="end">SELECT</text>
+            <text class="print menu-print" x="660" y="1432" text-anchor="end">START</text>
+
+            <!-- Speaker -->
+            <g fill="url(#hole)">
+              <circle cx="152" cy="1372" r="9" /><circle cx="186" cy="1372" r="9" /><circle cx="220" cy="1372" r="9" /><circle cx="254" cy="1372" r="9" />
+              <circle cx="152" cy="1406" r="9" /><circle cx="186" cy="1406" r="9" /><circle cx="220" cy="1406" r="9" /><circle cx="254" cy="1406" r="9" />
+              <circle cx="152" cy="1440" r="9" /><circle cx="186" cy="1440" r="9" /><circle cx="220" cy="1440" r="9" /><circle cx="254" cy="1440" r="9" />
+            </g>
+          </svg>
+
+          <div class="lcd" id="lcd">
+            <canvas id="screen" width="160" height="144" role="img" aria-label="The Game Boy screen"></canvas>
+            <p class="lcd-note" id="note" hidden></p>
           </div>
-          <div class="hinge" aria-hidden="true"></div>
-          <div class="base" aria-hidden="true"></div>
-
-          <div class="controls" aria-hidden="true">
-            <span class="shoulder l" data-shoulder title="L: stretch the picture">L</span>
-            <span class="shoulder r" data-shoulder title="R: stretch the picture">R</span>
-
-            <span class="led" id="led"></span>
-            <span class="led-label">POWER</span>
-            <span class="light" data-light title="Screen light">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" /></svg>
-            </span>
-
-            <div class="dpad" data-pad>
-              <span class="arm up" data-dir="up"></span>
-              <span class="arm right" data-dir="right"></span>
-              <span class="arm down" data-dir="down"></span>
-              <span class="arm left" data-dir="left"></span>
-              <span class="hub"></span>
-            </div>
-
-            <span class="round b" data-button="B"></span>
-            <span class="round a" data-button="A"></span>
-            <span class="key-label b">B</span>
-            <span class="key-label a">A</span>
-
-            <span class="small select" data-button="select"></span>
-            <span class="small start" data-button="start"></span>
-            <span class="small-label select">SELECT</span>
-            <span class="small-label start">START</span>
-
-            <span class="speaker"></span>
-            <span class="maker">Erin Kerr</span>
-          </div>
+          <!-- Light catching the glass, over the picture. -->
+          <span class="glare" aria-hidden="true"></span>
         </div>
       </div>
 

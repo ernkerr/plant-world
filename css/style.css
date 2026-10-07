@@ -3,17 +3,6 @@
   --ink: #1f2b38;
   --muted: #5b6878;
 
-  /* A pearl blue SP */
-  --shell-hi: #d3e6f8;
-  --shell: #b4d1ee;
-  --shell-lo: #9dbfe4;
-  --shell-edge: #86a9d2;
-  --key: #6c8cba;
-  --key-hi: #8eaad2;
-  --key-lo: #4b6b98;
-  --print: #3f5d85;
-  --glass: #101317;
-
   --serif: "Newsreader", Georgia, "Times New Roman", serif;
   --sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
@@ -113,72 +102,132 @@ body {
   padding: 12px 16px;
 }
 
-/* Everything inside is sized in cqw (a share of the SP's width), so it
-   scales as one piece. Opened, an SP is about half as wide as it is tall. */
+/* The drawing is 820 by 1600 (an opened SP is about half as wide as it is
+   tall). The screen and glare are laid over it in percentages of that. */
 .sp {
   position: relative;
   container-type: inline-size;
-  width: min(440px, calc(100vw - 32px), calc((100dvh - 224px) * 0.52));
+  width: min(440px, calc(100vw - 32px), calc((100dvh - 224px) * 0.5125));
   min-width: 250px;
-  aspect-ratio: 52 / 100;
+  aspect-ratio: 820 / 1600;
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
-  filter: drop-shadow(0 6cqw 8cqw rgba(30, 50, 80, 0.28));
 }
 
-.lid,
-.base {
-  position: absolute;
-  left: 0;
-  right: 0;
-  background: linear-gradient(165deg, var(--shell-hi), var(--shell) 50%, var(--shell-lo));
-  box-shadow:
-    inset 0.6cqw 0.6cqw 0 rgba(255, 255, 255, 0.55),
-    inset -0.8cqw -1cqw 0 rgba(40, 70, 110, 0.12);
-}
-
-.lid {
-  top: 0;
-  height: 94cqw;
-  border-radius: 8cqw 8cqw 3cqw 3cqw;
-}
-
-.base {
-  top: 96cqw;
-  bottom: 0;
-  border-radius: 3cqw 3cqw 11cqw 11cqw;
-}
-
-.glass {
-  position: absolute;
-  top: 5cqw;
-  left: 5.5cqw;
-  right: 5.5cqw;
-  height: 78cqw;
-  border-radius: 3.5cqw;
-  background: var(--glass);
-  box-shadow: 0 0 0 0.5cqw rgba(40, 70, 110, 0.25);
-}
-
-/* Light catching the glass. */
-.glass::after {
-  content: "";
+.sp svg {
   position: absolute;
   inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(125deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.03) 38%, transparent 40%);
-  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  touch-action: none;
+  filter: drop-shadow(0 2.5cqw 3cqw rgba(28, 54, 96, 0.22)) drop-shadow(0 12cqw 14cqw rgba(28, 54, 96, 0.25));
 }
 
-/* The SP's screen is 240 by 160. A Game Boy game is 160 by 144, so it sits
-   in the middle with black around it, unless you stretch it with L or R. */
+.print {
+  font-family: var(--sans);
+  font-weight: 800;
+  fill: #3f5d85;
+}
+
+.glass-print {
+  font-size: 25px;
+  font-weight: 500;
+  letter-spacing: 11px;
+  fill: #8b95a2;
+}
+
+.glass-maker {
+  font-size: 19px;
+  font-style: italic;
+  font-weight: 500;
+  fill: #5f6975;
+}
+
+.shoulder-print {
+  font-size: 26px;
+  opacity: 0.75;
+}
+
+.small-print {
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+
+.key-print {
+  font-size: 32px;
+}
+
+.menu-print {
+  font-size: 20px;
+  letter-spacing: 2.5px;
+}
+
+.hit {
+  fill: transparent;
+}
+
+.key,
+[data-pad] {
+  cursor: pointer;
+}
+
+.cap {
+  transition: transform 60ms;
+}
+
+.shade {
+  fill: #1b3760;
+  opacity: 0;
+  transition: opacity 60ms;
+}
+
+.pressed .cap {
+  transform: translateY(4px);
+}
+
+.pressed .shade {
+  opacity: 0.16;
+}
+
+.arm {
+  fill: #1b3760;
+  opacity: 0;
+  transition: opacity 60ms;
+}
+
+.arm.pressed {
+  opacity: 0.2;
+}
+
+.led .dot {
+  fill: #4b6688;
+  transition: fill 300ms;
+}
+
+.led .glow {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+.led.on .dot {
+  fill: #7dff93;
+}
+
+.led.on .glow {
+  opacity: 1;
+}
+
+/* The window in the lid is 612 by 408 of the drawing's 820 by 1600. The SP's
+   screen is 240 by 160 and a Game Boy game is 160 by 144, so the game sits in
+   the middle with black around it, unless you stretch it with L or R. */
 .lcd {
   position: absolute;
-  top: 6.5cqw;
-  left: 5cqw;
-  width: 79cqw;
-  height: 52.67cqw;
+  top: 6.25%;
+  left: 12.683%;
+  width: 74.634%;
+  height: 25.5%;
   overflow: hidden;
   background: #000000;
   transition: filter 250ms;
@@ -218,323 +267,18 @@ body {
   color: #c9d2dc;
 }
 
-.glass-label {
+/* The glass over the whole black panel (724 by 676 at 48, 50). */
+.glare {
   position: absolute;
-  top: 65.5cqw;
-  left: 0;
-  right: 0;
-  margin: 0;
-  font-size: 2.6cqw;
-  font-weight: 500;
-  letter-spacing: 0.4em;
-  text-align: center;
-  color: #7e8a97;
-}
-
-.hinge {
-  position: absolute;
-  top: 90.5cqw;
-  left: 14.5cqw;
-  right: 14.5cqw;
-  height: 8.5cqw;
-  border-radius: 4.25cqw;
-  background: linear-gradient(180deg, var(--shell-hi), var(--shell) 40%, var(--shell-edge));
-  box-shadow:
-    0 0.6cqw 1cqw rgba(30, 50, 80, 0.25),
-    inset 0 0.4cqw 0 rgba(255, 255, 255, 0.6);
-}
-
-/* ---- Buttons ---- */
-
-.controls {
-  position: absolute;
-  inset: 0;
+  top: 3.125%;
+  left: 5.854%;
+  width: 88.293%;
+  height: 42.25%;
+  border-radius: 5.5% / 5.9%;
+  background:
+    linear-gradient(118deg, rgba(255, 255, 255, 0.11) 0%, rgba(255, 255, 255, 0.045) 36%, transparent 36.5%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 8%);
   pointer-events: none;
-  touch-action: none;
-}
-
-.dpad,
-.round,
-.small,
-.shoulder,
-.light {
-  pointer-events: auto;
-  touch-action: none;
-  cursor: pointer;
-}
-
-.shoulder {
-  position: absolute;
-  top: 91.5cqw;
-  width: 13cqw;
-  height: 7cqw;
-  display: grid;
-  place-items: center;
-  font-size: 2.8cqw;
-  font-weight: 800;
-  color: var(--print);
-  background: linear-gradient(180deg, var(--shell-lo), var(--shell-edge));
-  box-shadow: inset 0 0.4cqw 0 rgba(255, 255, 255, 0.45);
-  transition: translate 60ms;
-}
-
-.shoulder.l {
-  left: 0;
-  border-radius: 4cqw 1.5cqw 1.5cqw 1cqw;
-}
-
-.shoulder.r {
-  right: 0;
-  border-radius: 1.5cqw 4cqw 1cqw 1.5cqw;
-}
-
-.shoulder.pressed {
-  translate: 0 0.5cqw;
-  filter: brightness(0.92);
-}
-
-.led {
-  position: absolute;
-  top: 104cqw;
-  left: 8.5cqw;
-  width: 2.2cqw;
-  height: 2.2cqw;
-  border-radius: 50%;
-  background: #5d7189;
-  transition:
-    background 300ms,
-    box-shadow 300ms;
-}
-
-.led.on {
-  background: #6dff8a;
-  box-shadow: 0 0 1.6cqw rgba(109, 255, 138, 0.9);
-}
-
-.led-label {
-  position: absolute;
-  top: 107.2cqw;
-  left: 5.6cqw;
-  font-size: 1.7cqw;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  color: var(--print);
-}
-
-.light {
-  position: absolute;
-  top: 102.5cqw;
-  left: 46.5cqw;
-  width: 7cqw;
-  height: 7cqw;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, var(--key-hi), var(--key));
-  box-shadow: 0 0.5cqw 0 var(--key-lo);
-  transition: translate 60ms;
-}
-
-.light svg {
-  width: 4.4cqw;
-  height: 4.4cqw;
-  fill: none;
-  stroke: #e7f0fa;
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-.light.pressed {
-  translate: 0 0.4cqw;
-  box-shadow: 0 0.15cqw 0 var(--key-lo);
-}
-
-.dpad {
-  position: absolute;
-  top: 116cqw;
-  left: 7cqw;
-  width: 30cqw;
-  height: 30cqw;
-}
-
-/* The dish the pad sits in. */
-.dpad::before {
-  content: "";
-  position: absolute;
-  inset: -2.5cqw;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(40, 70, 110, 0.12) 55%, transparent 72%);
-}
-
-.arm,
-.hub {
-  position: absolute;
-  width: 10cqw;
-  height: 10cqw;
-  background: var(--key);
-  box-shadow:
-    0 0.8cqw 0 var(--key-lo),
-    inset 0 0.4cqw 0 rgba(255, 255, 255, 0.25);
-  transition: translate 60ms;
-}
-
-.arm.up {
-  top: 0;
-  left: 10cqw;
-  border-radius: 1.4cqw 1.4cqw 0 0;
-}
-
-.arm.down {
-  top: 20cqw;
-  left: 10cqw;
-  border-radius: 0 0 1.4cqw 1.4cqw;
-}
-
-.arm.left {
-  top: 10cqw;
-  left: 0;
-  border-radius: 1.4cqw 0 0 1.4cqw;
-}
-
-.arm.right {
-  top: 10cqw;
-  left: 20cqw;
-  border-radius: 0 1.4cqw 1.4cqw 0;
-}
-
-.hub {
-  top: 10cqw;
-  left: 10cqw;
-  box-shadow: 0 0.8cqw 0 var(--key-lo);
-}
-
-.hub::after {
-  content: "";
-  position: absolute;
-  inset: 2.8cqw;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, var(--key-lo), #5b7aa7);
-  opacity: 0.6;
-}
-
-.arm.pressed {
-  translate: 0 0.5cqw;
-  box-shadow: 0 0.3cqw 0 var(--key-lo);
-  background: #6283b2;
-}
-
-.round {
-  position: absolute;
-  width: 14cqw;
-  height: 14cqw;
-  border-radius: 50%;
-  background: radial-gradient(circle at 38% 32%, var(--key-hi), var(--key) 62%, #5f7fae);
-  box-shadow: 0 0.9cqw 0 var(--key-lo);
-  transition: translate 60ms;
-}
-
-.round.b {
-  top: 129cqw;
-  left: 58cqw;
-}
-
-.round.a {
-  top: 117.5cqw;
-  left: 77cqw;
-}
-
-.round.pressed {
-  translate: 0 0.6cqw;
-  box-shadow: 0 0.3cqw 0 var(--key-lo);
-  filter: brightness(0.94);
-}
-
-.key-label {
-  position: absolute;
-  font-size: 3.4cqw;
-  font-weight: 800;
-  color: var(--print);
-}
-
-.key-label.b {
-  top: 145cqw;
-  left: 63.6cqw;
-}
-
-.key-label.a {
-  top: 133.5cqw;
-  left: 82.6cqw;
-}
-
-.small {
-  position: absolute;
-  left: 81cqw;
-  width: 6.5cqw;
-  height: 6.5cqw;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, var(--key-hi), var(--key));
-  box-shadow: 0 0.5cqw 0 var(--key-lo);
-  transition: translate 60ms;
-}
-
-/* A bigger target for fingers than the button itself. */
-.small::after {
-  content: "";
-  position: absolute;
-  inset: -2cqw -3cqw;
-}
-
-.small.select {
-  top: 156cqw;
-}
-
-.small.start {
-  top: 167cqw;
-}
-
-.small.pressed {
-  translate: 0 0.4cqw;
-  box-shadow: 0 0.15cqw 0 var(--key-lo);
-}
-
-.small-label {
-  position: absolute;
-  right: 22cqw;
-  font-size: 2.3cqw;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: var(--print);
-}
-
-.small-label.select {
-  top: 158cqw;
-}
-
-.small-label.start {
-  top: 169cqw;
-}
-
-.speaker {
-  position: absolute;
-  top: 160cqw;
-  left: 11cqw;
-  width: 18cqw;
-  height: 10.8cqw;
-  background-image: radial-gradient(circle, rgba(30, 50, 80, 0.5) 0.75cqw, transparent 0.9cqw);
-  background-size: 3.6cqw 3.6cqw;
-}
-
-.maker {
-  position: absolute;
-  top: 181cqw;
-  left: 0;
-  right: 0;
-  font-size: 2.6cqw;
-  font-style: italic;
-  font-weight: 500;
-  text-align: center;
-  color: var(--print);
-  opacity: 0.8;
 }
 
 /* ---- Bottom ---- */
@@ -609,7 +353,7 @@ kbd {
   }
 
   .sp {
-    width: min(460px, calc((100dvh - 48px) * 0.52));
+    width: min(460px, calc((100dvh - 48px) * 0.5125));
   }
 
   .bottom {
@@ -653,12 +397,11 @@ kbd {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .cap,
+  .shade,
   .arm,
-  .round,
-  .small,
-  .shoulder,
-  .light,
-  .led,
+  .led .dot,
+  .led .glow,
   .lcd {
     transition: none;
   }
